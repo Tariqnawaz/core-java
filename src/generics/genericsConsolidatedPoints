@@ -1,0 +1,68 @@
+Generics
+
+Generics : 
+1. Generics are used to check the type compatibility at the compile time and hence removing the chances of occuring ClassCastException at 
+   run time.
+2. Without generics type casting is required.
+3. Generics Work Only With Derived Types :While creating an instance of generic class, you must pass only derived types. You can’t pass 
+   primitive types. If you pass primitive type,it gives compile time error. 
+
+Generic Interface Consolidated Points:
+1. Like generic classes, you can also define generic interfaces. Only generic classes can implement generic interfaces. Normal classes 
+   can’t implement generic interfaces.A normal class can implement a generic interface if type parameter of generic interface is a 
+   wrapper class.
+2. Class can implement more than one generic interfaces. Generic Class can extend one class and implements more than 1 interface.
+
+Bounded Types Consolidated Points:
+1. To limit the types that can be passed to type parameters.
+
+WildCard Types Consolidated Points:   
+1. WildCard arguments means unknown type arguments. It is used to make more generic.  
+
+Type Erasure :
+1. One more interesting thing about generics is type erasure. When you compile your java code, compiler removes all generic information 
+   mentioned in your code. Compiler replaces all type parameters with their bounded type. The type parameters which don’t have bounds will 
+   be replaced with java.lang.Object class. That means all type parameters exist till compilation only. They are erased during compilation. 
+   They don’t exist at run time.
+   
+Some Interesting Observations About Generics In Java
+1. Java allows generic classes to use without type parameters i.e as a raw type. This is because to provide the compatibility of generic 
+   code with non-generic code. That means, non-generic code must be able to work with generic code and generic code must be able to work 
+   with non-generic code.   
+2. You can’t create an instance to the type parameters. This is because, the type parameters does not exist at run time. They are erased 
+   during compilation.   
+3. In generic class with type parameter ‘T’, you can’t declare static fields of type ‘T’ and you can’t use ‘T’ in a static method. However, 
+   you can declare static generic methods with their own type parameters.   
+4. You can’t create an array of generic type containing specific type of data. But, you can create an array of generic type containing 
+   unknown type of data.
+5. You can not create generic exceptions i.e A generic class can not extend Throwable or any of it’s sub classes.
+ 
+
+Generic Interface :
+1. Like generic classes, you can also define generic interfaces
+2. Only generic classes can implement generic interfaces. Normal classes can’t implement generic interfaces.
+3. A normal class can implement a generic interface if type parameter of generic interface is a wrapper class.
+4. Class implementing generic interface at least must have same number and same type of parameters and at most can have any number and any
+   type of parameters.   
+5. You can change the type of parameter passed to generic interface while implementing it. When changed, the class which is implementing 
+   should have new type as parameter and also, you have to change old type with new type while implementing the methods.   
+6. Generic interface can have any number of type parameters. Class implementing generic interface at least must have  same type of 
+   parameters and at most can have any number of parameters
+7. Class can implement more than one generic interfaces. If implemented, class should have type parameters of both the interfaces.
+8. We can define methods and constructors as generics.
+
+Bounded Types in generics :   
+1. To limit the types that can be passed to type parameters. For that purpose, bounded types or bounded type parameters are introduced in 
+   generics. Using bounded types, you can make the objects of generic class to have data of specific derived types. 
+2. You can also use interface type along with class type as an upper bound to type parameters.
+3.    
+
+Wildcard
+1. Wildcard arguments means unknown type arguments. They just act as placeholder for real arguments to be passed while calling method. 
+   They are denoted by question mark (?). One important thing is that the types which are used to declare wildcard arguments must be 
+   generic types. Wildcard arguments are declared in three ways.
+
+1) Wildcard Arguments With An Unknown Type
+2) Wildcard Arguments with An Upper Bound
+3) Wildcard Arguments with Lower Bound  
+

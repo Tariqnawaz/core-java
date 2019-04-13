@@ -1,0 +1,165 @@
+									Threads-(Important Points to remember)
+Application :
+-Application is a program which is designed to perform a specific task. For example, MS Word, Google Chrome, a video or 
+ audio player etc.
+ 
+Process :
+-Process is an executing instance of an application. For example, when you double click MS Word icon in your computer, 
+ you start a process that will run this MS word application.
+ 
+Thread :
+-Thread is a smallest executable unit of a process. Thread has it’s own path of execution in a process. For example, when you 
+ start MS word, operating system creates a process and start the execution of a primary thread of that process. A process can 
+ have multiple threads.
+ 
+MultiThreading :
+ MultiThreading is a process of executing multiple threads simultaneously.
+ 
+Creation of thread:
+1. There are two ways to create a thread by extending Thread class or by implementing Runnable Interface.
+2. Thread Class or Runnable Interface has one method i.e run() which we have to implement in our class.
+3. Refer example 1 (ThreadsConsolidateJavaProgram.java).
+4. You can give a name or retrieve name  by using setName() or getName() method of Thread class.
+5. In Java, All threads have names. If you are not providing the name to a thread, thread will get default name. Default name of the 
+   thread will be consist of a word “Thread”, followed by hyphen (-) and followed by an integer number starting with 0.
+6. by using currentThread() you can retrieve a name of the primary thread or main thread.  
+7. To identify a thread in java by getID() method.This method returns the unique long number associated with a thread. 
+   That can be used as an identifier of a thread.
+8. Thread ID is a unique positive long number. It remains the same for a thread during its whole life term. Thread ID may be reused when 
+   the thread is terminated.   
+9. Thread ID is generated as soon as the thread is created. So, you can use the thread ID before starting the thread.
+10.Thread ID doesn’t change when the name of a thread is changed. Therefore, if the thread name is changed, still thread can be identified 
+   by it’s ID. 
+11.We can’t assign our own ID to the thread. But, we can change the way getID() returns the thread ID as it is not a final method.
+12.When an application has multiple threads they are choosen to execute on priority basis. A thread with highest priority is choosen 
+   first for execution than the thread with lowest priority. setPriority() and getPriority methods.
+   MIN_PRIORITY   —> It defines the lowest priority that a thread can have and It’s value is 1.
+   NORM_PRIORITY  —> It defines the normal priority that a thread can have and it’s value is 5.
+   MAX_PRIORITY  —> It defines the highest priority that a thread can have and it’s value is 10.
+13.we can change the priority of a main thread. First, get the reference of main thread using CurrentThread() method. Then call 
+   setPriority() method on it. 
+14.The priority of a main thread, if explicitly not set, is always 5 i.e NORM_PRIORITY. 
+15.The Sleep() is used to sleep a tread for a specified amount of time.
+16.Thread.sleep() method may also throws IllegalArgumentException if miilis value is negative or nanos value is not in the range 0 – 999999.
+17.The join() method waits for a thread to die. In other words, it causes the currently running threads to stop executing until the thread it joins with 
+   completes its task.         
+18. Nested classes can also achieve Execution of Threads by extending Thread Class or by Runnable Interface.Refer example 1 
+   (ThreadsConsolidateJavaProgram.java).
+
+Types of Threads: (User Thread and Daemon Thread)
+1. One's you created a User Thread , next step is to set a Daemon is to true and then start a thread.
+2. If you try to use setDaemon after thread start(), you'll get a exception.
+3. You can check whether the thread is user thread or a daemon thread by using isDaemon() method of Thread class.
+4. Daemon property of a thread is inherited from it’s parent thread. i.e The thread created by user thread will be user thread and the 
+   thread created by daemon thread will be a daemon thread.
+5. The main thread or primary thread created by JVM is an user thread. (Pnts 1 , 2 , 3 , 4, 5 Refer example 3)
+6.
+
+Synchronization Consolidated Points:
+1. synchronized keyword only with method not with variable , constructors, static initializer and instance initializers,but they can 
+   contain synchronized blocks.
+2. Both static synchronized and non-static synchronized methods can run simultaneously. Because, static methods need class level 
+   lock and non-static methods need object level lock. A method can contain any number of synchronized blocks.
+3. Synchronized method or block is very slow. Use synchronized blocks instead of synchronized methods. Because, synchronizing some 
+   part of a method improves the performance than synchronizing the whole method.
+   
+Thread Interruption Consolidated Points:
+1. Thread interruption is like telling the thread that it should stop waiting or sleeping and return to running status.   
+2. You can check whether a particular thread is interrupted or not using isInterrupted() method of Thread class.A thread can interrupt 
+   itself. i.e a thread can call interrupt() method on it’s own.   
+   
+Thread Life Cycle ( Refer Example 7 ThradsConsolidateJavaProgram.java)
+1. NEW : A thread will be in this state before calling start() method.
+2. RUNNABLE : A thread will be in this state after calling the start() method. 
+3. BLOCKED : A thread will be in this state when a thread is waiting for object lock to enter into synchronized method/block or a 
+   thread will be in this state if deadlock occurs. 
+4. WAITING : A thread will be in this state when wait() or join() method is called. Below example shows the thread state when join() 
+   method is called.   
+5. TIMED_WAITING : A thread will be in this state when thread is sleeping. i.e A thread will be in this state when sleep() or wait() 
+   with timeOut or join() with timeOut is called.   
+6. 6) TERMINATED : A thread will be in this state once it finishes it’s execution.   
+
+Thread Group
+1. Java provides a convenient way to group multiple threads in a single object.
+2. getParent() Method : It returns the parent of the thread group in the form ClassName[name=name of the parent, maxpri=Maximum priority].
+3. setDaemon() And isDaemon() Methods :setDaemon() method is used to set the daemon property of a thread group. isDaemon() is used to 
+   check whether a thread group is daemon or not.
+4. setMaxPriority() And getMaxPriority() Methods :setMaxPriority() is used to set the maximum priority of a thread group. 
+   getMaxPriority() method is used to retrieve the maximum priority of a thread group.
+5. activeCount() and activeGroupCount() Methods : activeCount() returns the number of active threads in a specified group and it’s 
+   subgroups. activeGroupCount() returns the numbers of active thread groups in a specified group and it’s subgroups.  
+6. interrupt() Method : This method is used to interrupt all threads in a group.       
+7. destroy() Method : This method is used to destroy the whole thread group and it’s subgroups. Before calling this method, thread 
+   group must be empty i.e all threads in a group must be exited. Otherwise this method will throw IllegalThreadStateException.
+8. enumerate() Method.
+
+Seven Important Points to remember in Thread (Refer O005_Threads7Points2Remember.java for all the below points)
+1. If you start a thread that is already started, you will get java.lang.IllegalThreadStateException at run time. There will be no 
+   compilation errors.   
+2. Exception is thread wise not execution wise. i.e exception effects the thread in which it occurs. Other threads will execute 
+   normally.   
+3. When you call run()  method of a thread directly (without calling start()), calling thread will execute the task defined in 
+   the run() method.   
+4. Is it using Thread class or using Runnable interface?. 
+   It is the most confusing question for a java developer. I am of opinion that when multiple threads need to execute same task, then 
+   use Runnable interface. If multiple threads need to execute different tasks, then go for Thread class.   
+5. Setting the priority to a thread is not effective as we thought. Setting Priority of a thread is just an advice to OS not an 
+   instruction.   
+6. Every thread in java is a member of a thread group. When a java application first starts up, Java runtime system creates a thread 
+   group called main. main thread is also member of this group.
+7. A thread is a permanent member of a thread group to which it joins during creation. You can’t move a thread to a new group after 
+   creating it.      
+   
+Synchronization in java : (Refer O002_ThreadSynchronization)
+1. synchronization is also one of the way to make code thread safe. Through synchronization, we can make the threads to execute particular 
+   method or block in sync not simultaneously 
+2) You can use synchronized keyword only with methods but not with variables, constructors, static initializer and instance initializers.   
+3) Constructors, Static initializer and instance initializer can’t be declared with synchronized keyword, but they can contain synchronized blocks.
+4) Both static and non-static methods can use synchronized keyword. For static methods, thread need class level lock and for non-static methods, 
+   thread need object level lock.
+5) It is possible that both static synchronized and non-static synchronized methods can run simultaneously. Because, static methods need class level 
+   lock and non-static methods need object level lock.   
+6) A method can contain any number of synchronized blocks. This is like synchronizing multiple parts of a method.   
+7) Lock acquired by the thread before executing a synchronized method or block must be released after the completion of execution,no matter whether
+   execution is completed normally or abnormally (due to exceptions).
+8) Synchronization in java is Re-entrant in nature. A thread can not acquire a lock that is owned by another thread. But, a thread can 
+   acquire a lock that it already owns. That means if a synchronized method gives a call to another synchronized method which needs same lock, 
+   then currently executing thread can directly enter into that method or block without acquiring the lock.
+9) synchronized method or block is very slow. They decrease the performance of an application. So, special care need to be taken while 
+   using synchronization. Use synchronization only when you needed it the most.
+10)Use synchronized blocks instead of synchronized methods. Because, synchronizing some part of a method improves the performance than 
+   synchronizing the whole method.
+
+Deadlocked Threads In Java:
+1. Refer Example 5 ThradsConsolidateJavaProgram.java
+2. Avoid DeadLock Situation : Avoid nested synchronized blocks.  
+3. Nested synchronized blocks makes a thread to acquire another lock while it is already holding one lock. This may create the deadlock 
+   if another thread wants the same lock which is currently held by this thread.
+4. Another deadlock preventive tip is to specify the time for a thread to acquire the lock. If it fails to acquire the specified lock in 
+   the given time, then it should give up trying for a lock and retry after some time. Such method of specifying time to acquire the lock 
+   is called lock timeout.   
+5. Interthread Communication Using wait(), notify() and notifyAll().Threads can communicate with each other using wait(), notify() and 
+   notifyAll() methods. These methods are final methods of java.lang.Object class. That means every class in java will have these methods.
+6. For points 2,3,4,5 refer O002_ThreadSynchronization.java
+
+Thread Interruption In Java : (Refer Example 6 ThradsConsolidateJavaProgram.java for all the below points)
+1. Thread interruption in java is a mechanism in which a thread which is either sleeping or waiting can be made to stop sleeping or waiting. 
+2. Thread interruption is like telling the thread that it should stop waiting or sleeping and return to running status.   
+3. You can check whether a particular thread is interrupted or not using isInterrupted() method of Thread class. This method returns 
+   current interrupt status of a thread.  
+4. A thread can interrupt itself. i.e a thread can call interrupt() method on it’s own.
+5. There is one more method to check interrupt status of a thread, called interrupted() method. It is a static method of Thread class. 
+   It also returns the current interrupt status of a thread like isInterrupted() method. But, it clears interrupt status of a thread. 
+   i.e if interrupt status of a thread is true, then it will set the status to false.   
+
+  
+   
+   
+  
+
+   
+   
+   
+   
+   
+ 

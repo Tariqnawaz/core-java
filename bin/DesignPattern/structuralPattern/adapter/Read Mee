@@ -1,0 +1,42 @@
+Read Mee--
+
+1. Example (MediaPlayer)
+We are demonstrating use of Adapter pattern via following example in which an audio player device can play mp3 files only and wan-
+ts to use an advanced audio player capable of playing vlc and mp4 files.
+
+Implementation
+We have a MediaPlayer interface and a concrete class AudioPlayer implementing the MediaPlayer interface. AudioPlayer can play mp3 
+format audio files by default.
+
+We are having another interface AdvancedMediaPlayer and concrete classes implementing the AdvancedMediaPlayer interface. These 
+classes can play vlc and mp4 format files.
+
+We want to make AudioPlayer to play other formats as well. To attain this, we have created an adapter class MediaAdapter which im-
+plements the MediaPlayer interface and uses AdvancedMediaPlayer objects to play the required format.
+
+AudioPlayer uses the adapter class MediaAdapter passing it the desired audio type without knowing the actual class which can play 
+the desired format. AdapterPatternDemo, our demo class will use AudioPlayer class to play various formats.
+
+2. Example (mobile charger)
+Adapter design pattern is one of the structural design pattern and its used so that two unrelated interfaces can work together.
+
+One of the great real life example of Adapter design pattern is mobile charger. Mobile battery needs 3 volts to charge but the no-
+rmal socket produces either 120V (US) or 240V (India). So the mobile charger works as an adapter between mobile charging socket and the wall socket.
+We will try to implement multi-adapter using adapter design pattern in this tutorial.
+So first of all we will have two classes – Volt (to measure volts) and Socket (producing constant volts of 120V).
+
+Two Way Adapter Pattern
+
+While implementing Adapter pattern, there are two approaches – class adapter and object adapter – however both these approaches pr-
+oduce same result.
+
+Class Adapter – This form uses java inheritance and extends the source interface, in our case Socket class.
+Object Adapter – This form uses Java Composition and adapter contains the source object.
+
+3. Example -Shape  (Adapter in Java: Before and after) 
+1. Before
+Because the interface between Line and Rectangle objects is incapatible, the user has to recover the type of each shape and manua-
+  lly supply the correct arguments. 
+
+2. after
+The Adapter's "extra level of indirection" takes care of mapping a user-friendly common interface to legacy-specific peculiar interfaces.  

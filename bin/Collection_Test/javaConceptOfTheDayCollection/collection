@@ -1,0 +1,280 @@
+Collections
+
+Collection interface is the root level interface in the collection framework. List, Queue and Set are all sub interfaces of 
+Collection interface. JDK does not provide any direct implementations of this interface. But, JDK provides direct implementations 
+of it’s sub interfaces.
+
+Collection interface extends Iterable interface which is a member of java.lang package. Iterable interface has only one method 
+called iterator(). It returns an Iterator object, using that object you can iterate over the elements of Collection. Here is the 
+class diagram of Collection interface.(Refer image CollectionInterface.png for complete understanding).
+
+Collection Framework – List Interface
+List Interface represents an ordered or sequential collection of objects. This interface has some methods which can be used to 
+store and manipulate the ordered collection of objects. The classes which implement the List interface are called as Lists. 
+ArrayList, Vector and LinkedList are some examples of lists. You have the control over where to insert an element and from 
+where to remove an element in the list.
+
+Here are some properties of lists.
+
+1.Elements of the lists are ordered using Zero based index.
+2.You can access the elements of lists using an integer index.
+3.Elements can be inserted at a specific position using integer index. Any pre-existing elements at or beyond that position are 
+  shifted right.
+4.Elements can be removed from a specific position. The elements beyond that position are shifted left.
+5.A list may contain duplicate elements.
+6.A list may contain multiple null elements.
+7.List interface extends Collection interface. So, All 15 methods of Collection interface are inherited to List interface. 
+  Along with these methods, another 9 methods are included in the List interface to support the properties of lists. Here is the 
+class diagram of List interface.(Refer image ListInterface.png for complete understanding).
+
+ArrayList class implements List interface and extends AbstractList. It also implements 3 marker interfaces – RandomAccess, 
+Cloneable and Serializable. Here is hierarchy diagram of ArrayList class.(Refer image ArrayListClass.png for complete understanding).
+
+
+									Collection Framework – The Queue Interface
+The Queue Interface extends Collection interface. It defines queue data structure which is normally First-In-First-Out. Queue is 
+a data structure in which elements are added from one end and elements are deleted from another end. But, exception being the 
+Priority Queue in which elements are removed from one end, but elements are added according to the order defined by the supplied 
+comparator. Here is the hierarchy diagram of Queue interface.(Refer image QueueInterface.png for complete understanding).	
+
+How Typical Queue Works?
+Queue is a data structure where elements are added from one end called tail of the queue and elements are removed from another 
+end called head of the queue. Queue is also first-in-first-out type of data structure (except priority queue). That means an 
+element which is inserted first will be the first element to be removed from the queue. You can’t add or get or set elements at 
+an arbitrary position in the queues. Here is the diagram which shows how typical queue works.(Refer image HowQueueWorks.png for 
+complete understanding).			
+
+
+									Collection Framework – The Deque Interface
+The Deque is the short name for “Double Ended Queue“. As the name suggest, Deque is a linear collection of objects which supports 
+insertion and removal of elements from both the ends. The Deque interface defines the methods needed to insert, retrieve and remove
+the elements from both the ends.
+The Deque interface is introduced in Java SE 6. It extends Queue interface. Here is the hierarchy diagram of Deque interface.(Refer 
+image Deque.png for complete understanding).	
+
+How Deque – Double Ended Queue Works?
+As already said, Deque is nothing but the double ended queue. That means, you can insert, retrieve and remove the elements from 
+both the ends. Below diagram shows how Deque works.(Refer image HowDequeWorks.png for complete understanding).	
+
+
+									Collection Framework – The Set Interface
+The Set interface defines a set. The set is a linear collection of objects with no duplicates. Duplicate elements are not allowed 
+in a set. The Set interface extends Collection interface. Set interface does not have it’s own methods. All it’s methods are 
+inherited from Collection interface. The only change that has been made to Set interface is that add() method will return false 
+if you try to insert an element which is already present in the set.(Refer image SetInterface.png for complete understanding).	
+
+									Collection Framework – The SortedSet Interface
+The SortedSet interface extends Set interface. SortedSet is a set in which elements are placed according to supplied comparator. 
+This Comparator is supplied while creating a SortedSet. If you don’t supply comparator, elements will be placed in ascending order.
+(Refer image SortedSetInterface.png for complete understanding).		
+
+
+									Collection Framework – The NavigableSet Interface									
+The NavigableSet is a SortedSet with navigation facilities. The NavigableSet interface provides many methods through them you can 
+easily find closest matches of any given element. It has the methods to find out less than, less than or equal to, greater than 
+and greater than or equal of any element in a SortedSet.
+The NavigableSet interface extends SortedSet interface. Here is the hierarchy diagram of NavigableSet Interface.(Refer image 
+NavigableInterface.png for complete understanding).									
+  
+  									Difference Between Iterator And ListIterator In Java.		
+Iterator and ListIterator are two interfaces in Java collection framework which are used to traverse the collections. Although 
+ListIterator extends Iterator, there are some differences in the way they traverse the collections.
+
+1) Using Iterator, you can traverse List, Set and Queue type of objects. But using ListIterator, you can traverse only List 
+  objects. In Set and Queue types, there is no method to get the ListIterator object. But, In List types, there is a method called 
+  listIterator() which returns ListIterator object.
+2) Using Iterator, we can traverse the elements only in forward direction. But, using ListIterator you can traverse the elements 
+   in both the directions – forward and backward. ListIterator has those methods to support the traversing of elements in both the 
+directions.
+
+									Collection Framework – The Vector Class
+The Vector Class is also dynamically grow-able and shrink-able collection of objects like an ArrayList class. But, the main 
+difference between ArrayList and Vector is that Vector class is synchronized. That means, only one thread can enter into vector 
+object at any moment of time.
+
+Vector class has same features as ArrayList. Vector class also extends AbstractList class and implements List interface. It also 
+implements 3 marker interfaces – RandomAccess, Cloneable and Serializable. Below is the hierarchy diagram of Vector class.
+(Refer image VectorClass.png for complete understanding).		
+
+
+									Difference Between ArrayList And Vector Class
+1) Thread Safety
+2) Performance
+3) Capacity Increment
+4) Size
+5) Traversing The Elements.
+6) Searching The Elements.
+7) Legacy Code																	
+
+/*******************************************************************************************************************************/
+									Java Collection Framework – The LinkedList Class
+In general terms, LinkedList is a data structure where each element consist of three things. First one is the reference to previous 
+element, second one is the actual value of the element and last one is the reference to next element.
+
+The LinkedList class in Java is an implementation of doubly linked list which can be used both as a List as well as Queue. The 
+LinkedList in java can have any type of elements including null and duplicates. Elements can be inserted and can be removed from 
+both the ends and can be retrieved from any arbitrary position.
+
+The LinkedList class extends AbstractSequentialList and implements List and Deque interfaces. It also implements 2 marker 
+interfaces – Cloneable and Serializable. Here is the hierarchy diagram of LinkedList class in Java.									
+(Refer image LinkedListClass.png and HowLinkedListWorks for complete understanding).		
+
+									Java Collection Framework – The PriorityQueue Class
+The PriorityQueue is a queue in which elements are ordered according to specified Comparator. You have to specify this Comparator 
+while creating a PriorityQueue itsel. If no Comparator is specified, elements will be placed in their natural order. The 
+PriorityQueue is a special type of queue because it is not a First-In-First-Out (FIFO) as in the normal queues. But, elements are 
+placed according to supplied Comaparator.
+ 
+The PriorityQueue does not allow null elements. Elements in the PriorityQueue must be of Comparable type, If you insert the 
+elements which are not Comparable, you will get ClassCastException at run time.
+
+PriorityQueue class extends AbstractQueue class which in turn implements Queue interface. PriorityQueue also implements one marker 
+interface – java.io.Serializable interface. Below is the hierarchy diagram of PriorityQueue class.	
+
+Properties Of PriorityQueue Class :
+
+-Elements in the PriorityQueue are ordered according to supplied Comparator. If Comparator is not supplied, elements will be placed 
+in their natural order.
+-The PriorityQueue is unbounded. That means the capacity of the PriorityQueue increases automatically if the size exceeds capacity. 
+ But, how it grows is not specified.
+-The PriorityQueue can have duplicate elements but can not have null elements.
+-All elements of the PriorityQueue must be of Comparable type. Otherwise ClassCastException will be thrown at run time.
+-The head element of the PriorityQueue is always the least element and tail element is always the largest element according to 
+ specified Comparator.
+-The default initial capacity of PriorityQueue is 11.
+-You can retrieve the Comparator used to order the elements of the PriorityQueue using comparator() method.
+PriorityQueue is not a thread safe.		
+
+	
+										ArrayList Vs LinkedList In Java :
+Although both ArrayList and LinkedList implement List interface, they have some differences between them. The performance and 
+internal working nature of both varies significantly. There are also some similarities between them. In this article, we will see 
+both differences and similarities between ArrayList and LinkedList in Java.(Image ArrayListVsLinkedList.png)
+
+
+										Java Collection Framework – The HashSet Class
+The HashSet class in Java is an implementation of Set interface. HashSet is a collection of objects which contains only unique 
+elements. Duplicates are not allowed in HashSet. HashSet gives constant time performance for insertion, removal and retrieval 
+operations. It allows only one null element.
+ 
+The HashSet internally uses HashMap to store the objects. The elements you insert in HashSet will be stored as keys of that HashMap 
+object and their values will be a constant called PRESENT. This constant is defined as private static final Object PRESENT = new 
+Object() in the source code of HashSet class.
+
+HashSet class extends AbstractSet class and implements Set interface. It also implements Cloneable and Serializable marker 
+interfaces. Below is the hierarchy diagram of HashSet class. (HashSetClass.png & HowHashSetWorks.png).
+
+										Java Collection Framework – The LinkedHashSet Class
+The LinkedHashSet in java is an ordered version of HashSet which internally maintains one doubly linked list running through it’s 
+elements. This doubly linked list is responsible for maintaining the insertion order of the elements. Unlike HashSet which maintains 
+no order, LinkedHashSet maintains insertion order of elements. i.e elements are placed in the order they are inserted. LinkedHashSet 
+is recommended over HashSet if you want a unique collection of objects in an insertion order.	
+
+The LinkedHashSet class extends HashSet class and implements Set interface. It also implements Cloneable and Serializable marker 
+interfaces. Below is the hierarchy diagram of LinkedHashSet class in java.(LinkedHashSetClass.png).									
+
+										Java Collection Framework – The TreeSet Class
+The TreeSet is another popular implementation of Set interface. We have seen other two implementations of Set interface – HashSet 
+and LinkedHashSet. HashSet doesn’t maintain any order where as LinkedHashSet maintains insertion order. The main difference between 
+these two implementations and Treeset is, elements in TreeSet are sorted according to supplied Comparator. You need to supply this 
+Comparator while creating a TreeSet itself. If you don’t pass any Comparator while creating a TreeSet, elements will be placed in 
+their natural ascending order.
+
+The TreeSet class in java is a direct implementation of NavigableSet interface which in turn extends SortedSet interface (which in 
+turn extends Set interface). Below is the hierarchy diagram of TreeSet class.(image TreeSetClass.png)
+
+/********************************************************************************************************************************/
+										HashSet Vs TreeSet Vs LinkedHashSet In Java :
+Even though, HashSet, LinkedHashSet and TreeSet are all implementations of Set interface, there are some differences exist between 
+them. In this article, I have tried to list out the differences between HashSet, LinkedHashSet and TreeSet in java. They also have 
+some similarities between them. We will also discuss them at the end.			
+
+/**********************************************************************************************************************************/							
+										Java Collection Framework – The Map Interface
+The Map interface in java is one of the four top level interfaces of Java Collection Framework along with List, Set and Queue 
+interfaces. But, unlike others, it doesn’t inherit from Collection interface. Instead it starts it’s own interface hierarchy for
+ maintaining the key-value associations. Map is an object of key-value pairs where each key is associated with a value. This 
+ interface is the replacement for ‘Dictionary‘ class which is an abstract class introduced in JDK 1.0.
+
+HashMap, LinkedHashMap and TreeMap are three popular implementations of Map interface. Below picture shows the hierarchy of Map 
+interface in java.
+
+map interface
+Properties Of Map Interface In Java :
+
+1) Map interface is a part of Java Collection Framework, but it doesn’t inherit Collection Interface.
+2) Map interface stores the data as a key-value pairs where each key is associated with a value.
+3) A map can not have duplicate keys but can have duplicate values.
+4) Each key at most must be associated with one value.
+5) Each key-value pairs of the map are stored as Map.Entry objects. Map.Entry is an inner interface of Map interface.
+6) The common implementations of Map interface are HashMap, LinkedHashMap and TreeMap.
+7) Order of elements in map is implementation dependent. HashMap doesn’t maintain any order of elements. LinkedHashMap maintains 
+insertion order of elements. Where as TreeMap places the elements according to supplied Comparator.(Image MapInterface.png).
+
+Hierarchy Of HashMap In Java :
+As already said, HashMap extends AbstractMap class and implements Cloneable and Serializable interfaces. AbstractMap is an 
+abstract class which provides skeletal implementation of Map interface. Below is the hierarchy structure of java.util.HashMap class.
+
+hashmap in java
+Properties Of HashMap In Java :
+1) HashMap holds the data in the form of key-value pairs where each key is associated with one value.
+2) HashMap doesn’t allow duplicate keys. But it can have duplicate values.
+3) HashMap can have multiple null values and only one null key.
+4) HashMap is not synchronized. To get the synchronized HashMap, use Collections.synchronizedMap() method.
+5) HashMap maintains no order.
+6) HashMap gives constant time performance for the operations like get() and put() methods.
+7) Default initial capacity of HashMap is 16.
+
+										Difference Between Collection And Collections In Java
+What is the difference between Collection and Collections in java?
+This is one of the most confusing java interview question asked many a times to java freshers. Most of time, this question has been 
+asked to java freshers to check their basic knowledge about the Java Collection Framework. This question seems confusing because 
+both “Collection” and “Collections” look similar. Both are part of java collection framework, but both serve different purpose. 
+Collection is a top level interface of java collection framework where as Collections is an utility class. In this article, we will 
+discuss the differences between Collection and Collections in java.
+
+Collection Interface :
+Collection is a root level interface of the Java Collection Framework. Most of the classes in Java Collection Framework inherit 
+from this interface. List, Set and Queue are main sub interfaces of this interface. JDK doesn’t provide any direct implementations 
+of this interface. But, JDK provides direct implementations of it’s sub interfaces. ArrayList, Vector, HashSet, LinkedHashSet, 
+PriorityQueue are some indirect implementations of Collection interface. Map interface, which is also a part of java collection 
+framework, doesn’t inherit from Collection interface. Collection interface is a member of java.util package.
+
+Collections Class:
+Collections is an utility class in java.util package. It consists of only static methods which are used to operate on objects of 
+type Collection. For example, it has the method to find the maximum element in a collection, it has the method to sort the 
+collection, it has the method to search for a particular element in a collection. Below is the list of some important methods of 
+Collections class.							
+
+										Differences Between HashMap Vs HashSet In Java
+HashMap and HashSet, though they spell similar, are totally two different data structures in the Java Collection Framework. 
+HashMap is inherited from the Map interface where as HashSet is inherited from the Set interface. The structure in which they hold 
+the data is also different. HashMap holds the data as key-value pairs where as HashSet holds the data as only objects. There are 
+also some similarities exist between them. In this post, we discuss some of the differences and similarities between HashMap Vs 
+HashSet in java.				
+
+		HashSet	                 					  HashMap
+HashSet implements Set interface.	            HashMap implements Map interface.
+HashSet stores the data as objects.	            HashMap stores the data as key-value pairs.
+HashSet internally uses HashMap.	            HashMap internally uses an array of Entry<K, V> objects.
+HashSet doesn’t allow duplicate elements.	    HashMap doesn’t allow duplicate keys, but allows duplicate values.
+HashSet allows only one null element.	        HashMap allows one null key and multiple null values.
+Insertion operation requires only one object.	Insertion operation requires two objects, key and value.
+HashSet is slightly slower than HashMap.	    HashMap is slightly faster than HashSet.																			
+										
+										Fail Fast Vs Fail Safe Iterators In Java :
+
+Fail-Fast Iterators	                                                         Fail-Safe Iterators
+Fail-Fast iterators doesn’t allow modifications of a   	 Fail-Safe iterators allow modifications of a collection 
+ collection while iterating over it.					  while iterating over it.
+These iterators throw ConcurrentModificationException 	 These iterators don’t throw any exceptions if a collection is modified 
+	if a collection is modified while iterating over it.  while iterating over it. 
+They use original collection to traverse over the 	     They use copy of the original collection to traverse over the elements 
+  elements of the collection.							  of the collection.
+These iterators don’t require extra memory.	             These iterators require extra memory to clone the collection.
+Ex : Iterators returned by ArrayList, Vector, HashMap.	  Ex : Iterator returned by ConcurrentHashMap.											
+										
+    18 Java ArrayList Programming Examples -----------http://javaconceptoftheday.com/java-arraylist-programming-examples/
+    16 Java LinkedList Programming Examples-----------http://javaconceptoftheday.com/java-arraylist-programming-examples/
+    How To Remove Duplicate Elements From ArrayList In Java? ------------- http://javaconceptoftheday.com/how-to-remove-duplicate-elements-from-arraylist-in-java/
+    15 Java HashMap Programs And Examples ------------http://javaconceptoftheday.com/java-hashmap-programs-and-examples/							  									

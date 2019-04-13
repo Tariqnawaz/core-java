@@ -1,0 +1,284 @@
+Spring
+
+  
+/****************************************************Spring MVC*********************************************************************/ 
+
+1. As its name says, the Spring MVC framework is based on the Model - View - Controller (MVC) design pattern which separates the application’s 
+   logic into the three layers Mode, View and Controller. 
+2. Spring MVC provides an elegant solution to use MVC in spring framework by the help of DispatcherServlet. 
+3. DispatcherServlet class works as the front controller. It is responsible to manage the flow of the spring mvc application. 
+4. dispatcher servlet intercepts the coming request in application  and consults the controller to handle the requests. 
+5. Controller: is responsible to process the requests by calling other business/service classes 
+5. Service Classes:  Service classes do all the bussiness logic and send back to controller .
+   Then the controller sent it to the  view as a response..
+	 
+
+Spring Transaction :
+
+Introduction to Transaction : 
+1. A transaction comprises a unit of work(combination of few steps , this steps has to performed at one's  completely or rolled back i.e all or nothing) performed 
+   within a database management system(or similar system) against the database.
+2. Transaction provide all-or-nothing proposition - Each unit of work performed should be entirely committed or rolled back.  
+
+Transaction ACID - This is needed bcoz , this tells what transaction should take care of. 
+Transaction principle are Atomicity , Consistency , Isolated , Durable
+1.Atomicity - Atomicity ensures that all operations in the transaction happen or none of them happen.(i.e a unit of work should perform together or everythings get rollback)
+2.Consistency - The system should be left in a consistent state even if the transaction succeeds or fails. (i.e successfull transaction ensure the consistent data is persent in the database or it is not there in the database at all).
+3.Isolated - should allow multiple user to work. Transaction should be isolated from each others work - This prevent concurrent read and writes.
+4.Durable - After successful transaction, the system should store the details permanently.
+
+Before Spring transactions :
+1. To understand the importance of spring transaction , we need to understand what was there earlier and what we need now.
+
+2. So before spring transaction, EJB was considered to be a powerful API offering Bean Managed Transaction(BMT) and Container Managed transaction.
+   Bean Managed Transaction(BMT) is a fine grained transaction level where you can applied transaction at method level 
+   Container Managed transaction(CMT) are managed , transaction which are  configurable at application server.
+3. It offers both programmatic and declarative based transaction management.
+
+Problems
+But the problem is to work with EJB we need to have application server (which is costly) to run with CMT.
+EJB relies on JTA for transactions.
+Using EJB itself is a heavy choice.(It increases the maintainablity).
+
+//Here Spring Transaction Management Starts.
+Spring Transaction Advantages or What is Spring Transaction management :
+1. Offers both programmatic and declarative transactions.
+2. Declarative transaction are very much equivalent with container managed transaction and there is no need for application server.
+3. No need for using JTA.
+4. Wide range of Transaction Managers defined in spring transaction API. It helps to connect to different drivers
+
+Spring Transaction Limitation :
+1. Spring transaction are good at applications using single datebase.
+2. If you need to access multile databases, distributed transactional(XA) management is needed.
+3. Spring supports any kind of JTA implementation.
+
+J2EE developers have had two choices for transaction management: global or local transactions.
+global : Global transactions are managed by the application server, using the Java Transaction API (JTA).
+local  : Local transactions are resource-specific: the most common example would be a transaction associated with a JDBC connection.
+
+Springs Transaction Managers : 
+1. Note : Spring does not directly manage the transactions 
+2. Springs Transaction Managers delegate the responsiblity to perform specefic transaction management API.
+3. Spring transaction managers act as facade to platform specific transaction implementation.
+
+platform specific transaction are JDBC , Hibernate , JPA , JTA
+configuration of transactionManager 
+<bean id="hibernateTransactionManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean> 
+
+Programmatic Vs Declarative Transaction
+
+DeDeclarative Transaction are less intrusive and are defined in a configuration file. Developed based on the AOP concepts. This gives an advantages 
+of keeping the cross cutting concerns like transctions out of our DAO layer code.
+
+To use declarative Transaction add this line in configuration file
+<tx:annotation-driven transaction-manager="hibernateTransactionManager"/>  and use @Transactional annotation to get transaction support and transaction scope.
+
+		
+Transaction Attribute: It is to tell the behaviour of transaction and how the behaviour should apply in the application.
+1. Propagation
+2. Isolation 
+3. Ready Only
+4. Roll back rules
+5. Timeout
+
+Propagation : 
+1. Propagation is all about how the current transaction support other transaction.
+2. Propagation behavior defines the boundaries of a transaction.
+3. Propagation configuration tells the transaction manager if a new transaction should be started or can use the transaction which already exists.
+
+Propagation Rules:
+PROPAGATION_MANDATORY : Method should runs in a transaction and if nothing exist then exception should be thrown.
+PROPAGATION_NESTED :  Method should runs in a nested transaction. 
+PROPAGATION_NEVER : Current method should not run in a transaction. If exists an exception will be thrown.
+PROPAGATION_NOT_SUPPORTED : Method should not run in a transaction. Existing transaction will be suspended till method completes the execution.
+PROPAGATION_REQUIRED : Method should run in a transaction. If already exists , method will run in that and if not ,a new transaction will be created.
+PROPAGATION_REQUIRED_NEW : Method should run in a new transaction. If already exists , it will be suspended till the method finishes.
+PROPAGATION_SUPPORTED : Method need not run in a transaction. But if already exists , it supports one which is already in progress.
+
+Isolation Levels : 
+Isolation ensures the integrety of the data. That means when multiple user looking out for a data , isolation ensures that who should be able to look for the 
+data and who should be able to modify the data when they try to access the same data at the same time. The possibility from the isolation are :
+1. Dirty Reads : occurs when transaction reads an uncommitted data. (Dirty read should always be avoided).
+2. Non-repeated Reads : occurs when a transaction reads the same data multiple times but get different result each time. (i.e you should be able to understand 
+   when a particular transaction trying to read a particular row for multiple number of time each time it is getting a new data i.e another thread trying to update 
+   the particular row).
+3. Phantom Reads : occurs when two transaction work on a same row where one updates and other reads. The reading transaction get new data.
+
+Isolation Attributes :
+1. ISOLATION_DEFAULT : default isolation specific to the data source
+2. ISOLATION_READ_UNCOMMITTED : reads changes that are uncommitted . Leads to dirty reads ,Phantom reads and non repeatable reads.
+3. ISOLATION_READ_COMMITTED : read only committed data. Dirty read is prevented but repeatable and non repeatable reads are possible.   
+4. ISOLATION_REAPETABLE_READ : Multiple reads of same field yeild same results unless modified by same transaction. Dirty and non repeatable reads are prevented but 
+   phantom reads are possible as other transaction may edit the fields.
+5. ISOLATOIN_SERIALIZABLE : Dirty , phantom and non repeatable reads are prevented. But hampers the performance of application.   
+
+
+Read-Only : 
+By applying Read-Only to a transaction , the underlying data store will apply some performance optimization to render data more faster. 
+
+Transaction TimeOut :
+1. By declaring the timeout attribute, we can ensure that long running transactions are rolled back after certain number of seconds.
+2. The count down starts when transaction is started. So , Timeout attribute can be meaningful when applied for PROPAGATION_REQUIRED , PROPAGATION_REQUIRED_NEW and
+   PROPAGATION_NESTED.
+   
+RollBack :
+1. Rollback tells a transaction manager when to rollback a transaction when an exception occurs.
+2. By default the transaction will be rolled back when runtime exception occurs.
+3. But , by specifically mentioning the checked exception, transaction manager will be able to rollback the transactions.
+   
+Declarative transaction management :
+To use declarative Transaction add this line in configuration file
+<tx:annotation-driven transaction-manager="hibernateTransactionManager"/>  and use @Transactional annotation to get transaction support and transaction scope.
+
+What does @Transactional mean?
+    One of the key points about @Transactional is that there are two separate concepts to consider, each with it's own scope and life cycle:
+
+	the persistence context
+	the database transaction	
+	
+	The transactional annotation itself defines the scope of a single database transaction. The database transaction happens inside the 
+	scope of a persistence context.
+	
+	Persistence Contexts : (https://docs.jboss.org/hibernate/orm/4.0/devguide/en-US/html/ch03.html)
+    Both the org.hibernate.Session API and javax.persistence.EntityManager API represent a context for dealing with persistent data. 
+    This concept is called a persistence context. Persistent data has a state in relation to both a persistence context and the 
+    underlying database. Entity states are :
+    1. transient , 2. persistent , 3. detached , 4. removed
+    
+    In Hibernate native APIs, the persistence context is defined as the org.hibernate.Session.
+    In JPA, the persistence context is defined by javax.persistence.EntityManager.
+    
+    Once you've created a new entity instance(using the standard new operator) it is in new state.You can make it persistent by:
+	DomesticCat fritz = new DomesticCat();
+	session.save(fritz);
+	entityManager.persist(fritz);
+	
+	Deleting entities:
+	It is important to note that Hibernate itself can handle deleting detached state. JPA, however, disallows it.
+	session.delete( anAuthor );
+	entityManager.remove( anAuthor );
+
+	Refresh entity state :
+	session.refresh( cat );
+	entityManager.refresh( cat );
+	
+	Reattaching detached data :
+	session.update( someDetachedCat );
+	session.saveOrUpdate( someDetachedCat );
+	
+	Merging detached data :
+	Merging is the process of taking an incoming entity instance that is in detached state and copying its data over onto a new instance that is in 
+	managed state.
+	Cat theManagedInstance = session.merge( someDetachedCat );
+	Cat theManagedInstance = entityManager.merge( someDetachedCat );
+	
+	Checking persistent state : 
+	An application can verify the state of entities and collections in relation to the persistence context.
+	assert session.contains( cat );
+	assert entityManager.contains( cat );
+	
+4. How does @Transactional work then?
+    The persistence context proxy that implements EntityManager is not the only component needed for making declarative transaction manage-
+    ment work. Actually three separate components are needed:
+    The EntityManager Proxy itself
+	The Transactional Aspect
+	The Transaction Manager
+    	
+  Transactional Aspect :
+	The Transactional Aspect is an 'around' aspect that gets called both before and after the annotated business method. The concrete class
+	for implementing the aspect is TransactionInterceptor.
+	
+  Transaction Manager : 	
+	The transaction manager needs to provide an answer to two questions:
+	--should a new Entity Manager be created?
+	--should a new database transaction be started?
+
+  EntityManager proxy : 	
+	The EntityManager proxy (that we have introduced before) is the last piece of the puzzle. When the business method calls for example 
+	entityManager.persist(), this call is not invoking the entity manager directly.
+	Instead the business method calls the proxy, which retrieves the current entity manager from the thread, where the Transaction Manager
+    put it.
+
+  
+Spring AOP :   
+
+Difference between OOP & AOP 
+   OOP programming is object based programming , In oop concept code is sprinkled with primary(bussiness logic which we want to have in our prog-
+   ram) and secondary code(cross cutting code like logging , security , transaction).
+
+What AOP says is ? 
+   I will right just bussiness code in our class and I wont sprinkled my code with secondary code like logging , security , transaction. What I 
+   do Ill divide rest of the secondary code or cross cutting into various concerns like logging , security , transaction . Ill divide my code int-
+   o two different aspects i.e primay concern & secondary concern. AOP is not sumthing which replaces OOP, its compliments OOP.
+   
+AOP complements OOP by providing another way of thinking about program structure(then just the class and object). The key unit of modularity in -
+   OOP is the class, whereas in 
+AOP the unit of modularity is the aspect. Aspects enable the modularization of concerns.
+you'll be doing OOP and applying AOP on top of it.
+
+What is weaving ?
+Linking aspects with other application types or objects to create an advised object. This can be done at compile time(using the AspectJ compiler,for exp),load time , or at run-
+time. Spring AOP, like other pure java AOP frameworks , performs weaving at runtime.
+This says that basecode (primary concern) and secondary concern are weaved together to generate proxy object or advised object or Target Object.
+
+AOP Configuration
+<aop:config>
+   <aop:aspect id="myAspect" ref="aBean"> //ref is a class name
+      <aop:pointcut id="businessService"
+         expression="execution(* com.xyz.myapp.service.*.*(..))"/>
+
+      <!-- a before advice definition -->
+      <aop:before pointcut-ref="businessService" 
+         method="doRequiredTask"/>
+
+      <!-- an after advice definition -->
+      <aop:after pointcut-ref="businessService" 
+         method="doRequiredTask"/>
+
+      <!-- an after-returning advice definition -->
+      <!--The doRequiredTask method must have parameter named retVal -->
+      <aop:after-returning pointcut-ref="businessService"
+         returning="retVal"
+         method="doRequiredTask"/>
+
+      <!-- an after-throwing advice definition -->
+      <!--The doRequiredTask method must have parameter named ex -->
+      <aop:after-throwing pointcut-ref="businessService"
+         throwing="ex"
+         method="doRequiredTask"/>
+
+      <!-- an around advice definition -->
+      <aop:around pointcut-ref="businessService" 
+         method="doRequiredTask"/>
+   ...
+   </aop:aspect>
+</aop:config>
+
+<aop:aspectj-autoproxy /> // used as an alternate to xml configuration is anotation based configuration , after  using this we dont need above configuration in our xml / code.
+
+AOP Proxy :
+Proxy is an object created after applying the advice to the target object(application).Both objects(application and proxy)are same except that advice code is weaved into proxy.
+
+
+
+
+
+
+
+
+
+
+
+
+  	
+	
+	
+
+
+
+
+
+   

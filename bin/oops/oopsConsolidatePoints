@@ -1,0 +1,221 @@
+Oops
+
+Constructor:
+1. A constructor is a primary method which is used to create a object of Class.It doesn't return any thing and it should have same name as class.
+2. Every class should have at least one constructor. If you don’t write constructor for your class, compiler will give default constructor. 
+   Default constructor is always public and it has no arguments (No-Arg Constructor).
+3. Constructor can be declared as private. If you declare constructor as private, you can’t use it outside that class.
+4. One class can have more than one constructors. It is called Constructor Overloading. 
+5. Duplicate Constructors not allowed. If you keep duplicate constructors, you will get compile time error.
+6. Multiple arguments of the constructors can’t have same name.If the two arguments have the same name,you will get compile time error.   
+7. Only public, protected and private keywords are allowed before a constructor name. If you keep any other keyword before a constructor name, 
+   it gives compile time error.
+8. First statement in a constructor must be either super() or this(). If you put any other statements you will get compile time error. 
+                       refer example of all the above points in (O001_ConstructorsExample.java)
+
+Inheritance:
+1. Class A has two members – int i and methodOne(). Class B also has two members – int j and methodTwo().Class B is extending Class A. Therefore, 
+   members of class A are inherited to Class B. Now, Class B will have two additional members inherited from class A along with its members.  
+2. Constructors, SIB – Static Initialization Block and IIB – Instance Initialization Block of super class will not be inheriting to its sub class. 
+   But they are executed while creating an object to sub class.
+3. If a class A has a constructor with argument then the Class B which extends class A force you to write constructor in Class B or explicitly define
+   a constructor in class A without argument.
+4. By default, every class is a sub class of java.lang.Object class. So, every class in java has properties inherited from Object class.
+5. We cannot can not call sub class constructor in parent class.
+6. Multiple inheritance is not supported.
+                       refer example of all the above points in (O001_InheritanceExample.java)
+7. Private member can not be inherited , Default member can be inherited within package , protected member can be inherited to any subclass ,
+   public member can be inherited to all sub classes.          
+                       refer example of points 7 in (Inheritance Folder inside package1 and package2).
+8. Inner Inheritance : An non-static inner class can extend another non-static inner class within the same class.
+9. A non-static inner class and static inner class can be extended in another outer class.
+10.When an outer class is extended by another outer class, Member inner classes will not be inherited to sub class.To use inner class properties inside 
+   the sub class of outer class, sub class must also have an inner class and that inner class must extend inner class of the outer class.  
+11.Inner class can extend it’s outer class. But, it does not serve any meaning. Because, even the private members of outer class are available inside 
+   the inner class. Even though, When an inner class extends its outer class, only fields and methods are inherited but not inner class itself.  
+                        refer example of points 8,9,10,11 in (O002_InheritanceExample.java).         
+                        
+Access Modifiers:
+1. Private field can be used within class , Private inner class can be used within class , Private constructor can be used within class.
+2. Default field can be inherited within package , Default field can be used within the package , Default method can be used within the package
+   Default inner class can be used within the package.
+3. Protected field can be used within the package , Protected method can be used within the package , Protected Inner Class can be used within the 
+   package.
+4. public field can be used anywhere , public Inner Class can be used anywhere , public method can be used anywhere .     
+
+Type Casting: see typeCasting1 text file
+
+Polymorphism:
+1. MethodOverloading: In methodoverloading it should have same method signature but different argument.
+2. MethodOverriding : In methodoverriding it should same method signature and argument.
+3. StaticPolymorphism.
+4. DynamicPolymorphism  
+
+Abstraction:
+1). Abstract Class:
+1. Abstraction is used to separate ideas from their implementation. Abstraction in java is used to define only ideas in one class so that the idea can 
+   be implemented by its sub classes according to their requirements.
+2. The method which define abstract method , class also should define abstract.
+3. It is not compulsory that abstract class must have abstract methods. It may or may not have abstract methods. But the class which has at
+   least one abstract method must be declared as abstract.
+4. You can’t create objects to abstract class even though it does not contain any abstract methods.
+5. Abstract Class can be a combination of concrete and abstract methods.
+6. Any class extending an abstract class must implement all abstract methods. If it does not implement, it must be declared as abstract.
+7. Inside abstract class, we can keep any number of constructors. If you are not keeping any constructors, then compiler will keep default constructor.
+8. Abstract methods can not be private. Because, abstract methods must be implemented somehow in the sub classes. If you declare them as private, then
+   you can’t use them outside the class.
+
+2). Interface :
+1. Interface is 100 percent abstract class.
+2. Interfaces are declared with keyword ‘interface‘ and interfaces are implemented by the class using ‘implements‘ keyword.
+3. Interfaces should contain only abstract methods. Interfaces should not contain a single concrete method.
+4. Interface can have two types of members.  1) Fields     2) Abstract Methods.
+5. By default, Every field of an interface is public, static and final (we will discuss about final keyword Later). 
+   You can’t use any other modifiers other than these three for a field of an interface.
+6. You can’t change the value of a field once they are initialized. Because they are static and final. Therefore, sometimes fields are 
+   called as Constants. (We will discuss this feature in detail while covering ‘final’ keyword)
+7. By default, All methods of an interface are public and abstract.
+8. By default, every member of an interface is public and while implementing you should not reduce this visibility.  
+9. By default, Interface itself is not public but by default interface itself is abstract 
+10.Static Initialization Block and IIB – Instance Initialization Block are not allowed in interfaces.
+    
+keywords:
+Super
+1. Super is used to call super class constructor
+This
+2. this is used to call current class constructor.
+final
+3. Final class cannot be inherited.
+4. final method cannot be overriding.
+5. final variable cannot be changed.
+6. Any class or any method can be either abstract or final but not both. abstract and final are totally opposite. Because,
+   abstract class or abstract method must be implemented or modified in the sub classes but final does not allow this. This creates an ambiguity.
+7. final method can be overloaded and that overloaded method can be overridden in the sub class.
+8. final variable can not be re-initialized but final variable can be used to initialize other variables.
+9. When an array reference variable is declared as final, only variable itself is final but not the array elements.
+10.When a reference variable is declared as final, you can’t re-assign a new object to it once it is referring to an object. But, you can change the 
+   state of an object to which final reference variable is referring.
+11.Static variables, non-static variables and local variables all can be final. once the final variables are initialized, even you can’t
+   re-assign the same value.    
+12.If the global variables are not initialized explicitly, they get default value at the time of object creation. But final global variables don’t get 
+   default value and they must be explicitly initialized at the time of object creation. Uninitialized final field is called Blank Final Field.     
+13.final non-static global variable must be initialized at the time of declaration or in all constructors or in any one of IIBs – Instance 
+   Initialization Blocks.
+14.final static global variable must be initialized at the time of declaration or in any one of SIBs – Static Initialization Blocks. 
+    (final static global variable can’t be initialized in constructors)
+    
+NestedClasses:
+There are 2 types of Nested Classes.
+Static Nested Classes
+Non-Static Nested Classes or Inner Classes
+
+Static Nested Classes
+1. If nested class is declared as static, then that nested class is called as static nested class.
+2. Static nested classes can contain both static and non-static members.
+3. We can access only static members of outer class inside a static nested class. We can’t access non-static members of outer class 
+   inside a static nested class.
+4. We have seen that static methods can’t be abstract but static nested classes can be abstract.
+5. Static nested class can be final.
+6. Constructors and methods of nested classes can be overloaded.
+7. Static Nested Classes can be chained. i.e Nested class may contain another nested class and that nested class may contain another nested class and 
+   so on.       
+8. 
+
+Non-Static Nested Classes
+They are 3 types of Inner Classes in java.
+  Member Inner Classes
+  Local Inner Classes
+  Anonymous Inner classes   
+
+Member Inner Classes
+1. Member Inner Classes are non-static nested classes which are declared as non-static members of outer class.
+2. Member inner classes must contain only non-static members. Static members are not allowed inside member inner classes.
+3. But, here is the interesting point. You can declare a static field inside a member inner class if the field is final. 
+   And such field must be initialized at the time of declaration only. Remember, this rule is only for the fields not for the methods.
+4. Member inner class may contain any number of IIB’s but should not contain any SIB’s.
+5. We can access both static and non-static members of outer class inside a member inner class.
+6. All members of outer class are accessible inside member inner class and all members of member inner class are accessible inside the outer class 
+   irrespective of their visibility.
+7. Member inner classes can be abstract or can be final but not both.
+
+Local Inner Classes
+1. Local inner class in java is non-static nested class which is declared inside a method or a block.
+2. Local Inner Classes can’t be static. Because, local inner classes are nothing but local variables and local variables can’t be static.
+3. Local inner classes can’t have static members. Only non-static members are allowed inside local inner classes. But local inner classes can 
+   contain static and final field.
+4. To access members of local inner class, you must create an instance of it.
+5. Local inner classes are local to a method or a block in which they are defined. i.e you can’t use local inner classes outside the method or block in 
+   which they are defined.
+6. Only final local variables of methods or blocks containing local inner class can be used inside local inner class.
+7. Local inner classes can not be declared with access modifiers. i.e Local inner classes can not be private, protected and public. 
+   But they can have private, public, protected and default members in them.
+8. Local inner classes can be abstract or can be final but not both.
+9. 
+
+Anonymous Inner Class:
+1. Anonymous inner class, the name itself suggest that it is a class without a name. Anonymous inner class in java is an inner class or non-static 
+   nested class without a name.
+2. Anonymous inner classes don’t have name. They are nameless.You can create only one object to anonymous inner class. If you want to create another 
+   object, you have to write the whole class again.
+3. 
+
+Inheritance Inner Class :
+1. An inner class can be extended by another class outside of it’s outer class. If you are extending static inner class (Static nested class), then it 
+   is a straight forward implementation. If you are extending non-static inner class, then sub class constructor must explicitly call super class 
+   constructor using an instance of outer class. Because, you can’t access non-static inner class without the instance of outer class.         
+2. When an outer class is extended by it’s sub class, Member inner classes will not be inherited to sub class. To use inner class properties inside the 
+   sub class of outer class, sub class must also have an inner class and that inner class must extend inner class of the outer class.            
+3. Inner class can extend it’s outer class. But, it does not serve any meaning. Because, even the private members of outer class are available inside 
+   the inner class. Even though, When an inner class extends its outer class, only fields and methods are inherited but not inner class itself.   
+   
+
+Wrapper classes:
+1. Wrapper classes are mainly used to wrap the primitive content into an object.
+2. 
+Auto Boxing:
+1. From JDK 1.5 onwards, Auto-Boxing is introduced. According to this feature, you need not to explicitly wrap the primitive content into an object.
+2. 
+Un Boxing:
+1. All wrapper classes have methods to unwrap the object to corresponding primitive data.it shows unboxing i.e unwrapping wrapper object into corresponding 
+   primitive data.
+2. 
+Auto Un Boxing:
+1. From JDK 1.5 onwards, Auto-Unboxing is introduced. According to this feature, you need not to call method of  wrapper class to unbox the wrapper 
+   object. Java implicitly converts wrapper object to corresponding primitive data if you assign wrapper object to primitive type variable.
+2. 
+Constructors Of Wrapper Classes
+Every wrapper class in java has two constructors,
+1.First constructor takes corresponding primitive data as an argument
+2.Second constructor takes string as an argument.     
+Notes :
+1.The string passed to second constructor should be parse-able to number , otherwise you will get run time 
+  NumberFormatException.
+2. Wrapper Class Character has only one constructor which takes char type as an argument. It doesn’t have a 
+3.constructor which takes String as an argument. Because, String can not be converted into Character.
+  Wrapper class Float has three constructors. The third constructor takes double type as an argument.
+   
+        
+    
+
+Enums:
+1. Enums in java are mainly used for grouping similar kind of constants as a one unit. constants means static and final. 
+2. Enums are introduced in JDK 1.5 onward. Before that similar kind of constants are grouped by declaring them as static and final in one class. 
+3. Enums in java are declared with enum keyword and constants in enums must be valid java identifier. It is good practice to declare constants with 
+   UPPERCASE letters. Duplicate enum constants are not allowed.
+4. Every constant of enum is public, static and final by default. As every constant is static, they can be accessed directly using enum name.      
+5. Enums can have any number of fields. methods and constructors and Each constant will have their own copy of fields and methods.
+6. If enum has only constants, then semicolon (;) at the end of constant declaration is not mandatory.But, if enum has other members, then semicolon 
+   is mandatory.  
+7. Every enum in java extends java.lang.Enum class. Enum class is an abstract class in java.lang package.As every enum extends Enum class, it should 
+   not extend any other class. Because, Multiple inheritance is not allowed in java. But enums can implement any number of interfaces.
+8. Enums can be declared inside a class. If declared inside a class, they are static by default and can be accessed directly by Class name.
+9. Enum constants can override generalized method defined in the enum body.
+10.Enum can have abstract method declared in it’s body provided each enum constants must implement it.
+11.Enum Constants can have their own fields and method defined in their body, but these fields and methods are visible only within the constant body.
+12.After observing all the above features of enums, we come to know that enums can have constuctors, fields and methods. 
+   Enums can implement interface. Enums extend Enum class. That means they have all features of classes. Therefore they 
+   are special type of classes. Moreover, after compilation, .class files are generated for all enums. Then what enum 
+   constants are?….  You can treat them as static inner classes of enums as they can be referred directly using enum name 
+   and they can hold fields and methods in them.   
+    
+                                    

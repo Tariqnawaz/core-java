@@ -1,0 +1,566 @@
+Default fetch type for one-to-one, many-to-one and one-to-many in Hibernate
+    it depend on what you are using JPA or Hibernate
+    From the JPA 2.0 spec, the defaults are like so:
+	OneToMany: LAZY
+	ManyToOne: EAGER
+	ManyToMany: LAZY
+	OneToOne: EAGER
+	
+	And in hibernate, all is Lazy
+
+@NotFound : There might be a case where data not found and hibernate throws an exception , to ignore that exception use @notfound.
+
+Persistence Contexts : (https://docs.jboss.org/hibernate/orm/4.0/devguide/en-US/html/ch03.html)
+    Both the org.hibernate.Session API and javax.persistence.EntityManager API represent a context for dealing with persistent data. 
+    This concept is called a persistence context. Persistent data has a state in relation to both a persistence context and the 
+    underlying database. Entity states are :
+    1. transient , 2. persistent , 3. detached , 4. removed
+    
+    In Hibernate native APIs, the persistence context is defined as the org.hibernate.Session.
+    In JPA, the persistence context is defined by javax.persistence.EntityManager.
+    
+    Once you've created a new entity instance(using the standard new operator) it is in new state.You can make it persistent by:
+	DomesticCat fritz = new DomesticCat();
+	session.save(fritz);
+	entityManager.persist(fritz);
+	
+	Deleting entities:
+	It is important to note that Hibernate itself can handle deleting detached state. JPA, however, disallows it.
+	session.delete( anAuthor );
+	entityManager.remove( anAuthor );
+
+	Refresh entity state :
+	session.refresh( cat );
+	entityManager.refresh( cat );
+	
+	Reattaching detached data :
+	session.update( someDetachedCat );
+	session.saveOrUpdate( someDetachedCat );
+	
+	Merging detached data :
+	Merging is the process of taking an incoming entity instance that is in detached state and copying its data over onto a new instance that is in 
+	managed state.
+	Cat theManagedInstance = session.merge( someDetachedCat );
+	Cat theManagedInstance = entityManager.merge( someDetachedCat );
+	
+	Checking persistent state : 
+	An application can verify the state of entities and collections in relation to the persistence context.
+	assert session.contains( cat );
+	assert entityManager.contains( cat );
+	
+	
+
+Cascade : cascade means when we define relationship btn entity than we need to define how differernt operation will occur on different entity and this is done by
+          cascading. For example.
+          We have one user entity and vehicle entity, in user entity we have define vehicle relationship with one to many.
+          without using cascade type when we try to save user object we also have to explicitly save vehicle object though we have added vehicle object in user.
+          if we dont explicitly save vehicle , then we get exception : transient object should be save before flusing.
+          vehicle v1 = new Vehicle();
+          v1.setName("Honda");
+          vehicle v2 = new Vehicle();
+          v2.setName("Hero");
+          user.setVehicle(v1);
+          user.setVehicle(v2);
+          
+          session.save(user)
+          session.save(v1)
+          session.save(v1)   
+          
+          after using cascade=cascadeType.All or any other type , then
+          session.save(user); here hibernate will save its child table also.
+
+
+one to one - Defining one to one relationship i.e One person has one passport , One person has one driver's licence , One Person has a unique
+             address.  
+             Every Record in the student table , I want One record in the student address table . By Default fetchType of one to one is EAGER.
+what is one to one mapping ?
+	Any two table in database say A and B are said to have a one to one relationship within them, If each row in table A is linked to each row in table B.
+	And Number of rows in table A is equal to number of rows in table B	
+    @Entity                                                           @Entity  
+    @Table(name = "student")                                          @Table(name = "student_address")  
+    public class Student {                                            public class StudentAddress {  
+  
+    @Id                                                               @Id  
+    @GeneratedValue  												  @Column(name = "student_id")@GeneratedValue(generator = "gen")    
+    @Column(name = "student_id")  									  @GenericGenerator(name = "gen", strategy = "foreign", parameters = @Parameter(name = "property", value = "student"))  	 			
+    private long id;  												  private long id;  
+  
+    @Column(name = "first_name")  								      @Column(name = "address")		 
+    private String firstName;  										  private String address;  
+    
+    @OneToOne(mappedBy = "student", cascade = CascadeType.ALL)        @OneToOne
+ 	private StudentAddress studentAddress;                            @PrimaryKeyJoinColumn  
+	}         														  private Student student; 
+	         														  }
+one to many : One to many means , one college cna have many student. College to student has a one to many relationship and student to college has vice-versa i.e many to
+    one relation ship. College table has P.K , In order to make one to many relationship btn college and student , the college id has to be F.K in student.
+    if student entity of onetomany annotation is defined in college entity that means one college to many students and if college entity of manytoone is defined in 
+    student entity then many student in one college .
+
+many to many : many to many means , A author can write many books and A books can be written by many authors. Therefore author to book is many to many relationship
+    In order to make many to many relationship btn author and a book , there has to be a third table which does the mapping. There has to F.k  of author and book in 
+    the third table in to work many to many relationship. 	         														  
+
+State of an objects : Transient , Persistent and detached
+Transient: when the object is created and has no primary key , the state is called Transient state.For ex	         														  
+           Car car = new Car
+Persistent : When the session is opened and you have just save or retrived form database,this state is called as Persistent State .for ex
+		   tx = session.beginTransaction();
+		   session.save(car);
+           car.setName(“Peugeot”);
+           tx.commit();           			  
+detached : When the session was close, the state changes to detached. The object is detached from its session. 
+Now , If I want to save some changes then I have to bring the object in Persistent state , by session.lock() or session.update(). 
+		   transaction = session.beginTransaction();
+		   session.buildLockRequest(LockOptions.NONE).lock(car);
+		   car.setname(newName);
+	       transaction.commit();			
+	       
+Inheritance Mapping in hibernate : 
+1. Table Per Hierarchy 
+2. Table Per Concrete class
+3. Table Per Subclass 
+
+1. Table Per Hierarchy : In table per hierarchy mapping, single table is required to map the whole hierarchy, an extra column 
+         (known as discriminator column) is added to identify the class. But nullable values are stored in the table .
+	@Entity  																				@Entity  
+	@Table(name = "employee101")  															@DiscriminatorValue("regularemployee") 
+	@Inheritance(strategy=InheritanceType.SINGLE_TABLE)  									public class Regular_Employee extends Employee{  
+	@DiscriminatorColumn(name="type",discriminatorType=DiscriminatorType.STRING)  
+	@DiscriminatorValue(value="employee")  													@Column(name="salary")  
+  																							private float salary;  
+	public class Employee {  																
+	@Id  																					@Column(name="bonus")
+	@GeneratedValue(strategy=GenerationType.AUTO)  											private int bonus; 
+      
+	@Column(name = "id")  																	}  
+	private int id;  
+  
+	@Column(name = "name")  
+	private String name; 
+	}     
+	
+2.  Table Per Concrete class : In case of table per concrete class, tables are created as per class. But duplicate column is added in subclass
+    tables.	     
+	@Entity  																				@Entity  
+	@Table(name = "employee102")  															@DiscriminatorValue("regularemployee102") 
+	@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)) 								@AttributeOverrides({  
+	public class Regular_Employee extends Employee{											@AttributeOverride(name="id", column=@Column(name="id")),  
+	@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS) 									@AttributeOverride(name="name", column=@Column(name="name"))  
+																							})  	
+	 public class Employee { 									  							public class Regular_Employee extends Employee{ 
+	 @Id  
+	 @GeneratedValue(strategy=GenerationType.AUTO)									 		@Column(name="salary")  
+  																							private float salary;  
+	 @Column(name = "id") 																
+	 private int id;																		@Column(name="bonus")
+	  																						private int bonus; 
+     @Column(name = "name") 
+	 private String name;																	}  
+	 }  
+  
+3. Table Per Subclass : In this strategy, tables are created as per class but related by foreign key. So there are no duplicate columns.
+	@Entity  																				@Entity  
+	@Table(name = "employee103")  															@DiscriminatorValue("regularemployee103") 
+	@Inheritance(strategy=InheritanceType.JOINED) 											@PrimaryKeyJoinColumn(name="ID")  
+	public class Employee{																		  
+	@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS) 								public class Regular_Employee extends Employee{ 	  
+																							@Column(name="salary") 	
+	 public class Employee { 									  							private float salary;
+	 @Id  
+	 @GeneratedValue(strategy=GenerationType.AUTO)									 		@Column(name="bonus") 
+  																							private int bonus;  
+	 @Column(name = "id") 																    } 
+	 private int id;																		
+	  																						 
+     @Column(name = "name") 
+	 private String name;																	 
+	 }  	  
+
+**********************************************************************************************	 
+/* What is the Cacheing in Hibernate */
+1. There are two types of Cacheing mechanism - 1. 1st level cache and 2 level cache
+	1st level cache is associated with session and it is enabled by default
+	When we create a session , and with respect to that session when we write query to communicate with a database , query get stored in session cache
+	mechanism , if we write the same query again then data is returned from the session cache and not hitting the database. This is called first level
+	cache
+	
+    2 level cache is associated with session factory and it is not enabled by default.
+    To enable a 2 level cache we need to do the following task. In configuration file
+    1. <prop key="cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>  // is used to define the Factory class for Second level caching
+    2. <!-- to enable cache -->
+		<property name="hibernate.cache.use_second_level_cache">true</property> // is used to enable the second level cache.
+		<property name="hibernate.cache.use_query_cache">true</property> //  is used to enable the query cache, without it HQL queries results will not be cached.
+	3. Hibernate Model Beans with Caching Strategy - Define it to the entity which you want to do second level cache access.
+	   @Cache(usage=CacheConcurrencyStrategy.READ_ONLY, region="employee")
+	   
+Caching strategy ?
+1.  Read Only: This caching strategy should be used for persistent objects that will always read but never updated.
+2.  Read Write: It’s good for persistent objects that can be updated by the hibernate application. However if the data is updated either through bac-
+    kend or other applications, then there is no way hibernate will know about it and data might be stale. So while using this strategy, make sure 
+    you are using Hibernate API for updating the data.
+3.  Nonrestricted Read Write: If the application only occasionally needs to update data and strict transaction isolation is not required, a nonstrict-
+    read-write cache might be appropriate.    
+4.  Transactional: The transactional cache strategy provides support for fully transactional cache providers such as JBoss TreeCache. Such a cache ca-
+    n only be used in a JTA environment and you must specify hibernate.transaction.manager_lookup_class.    
+    
+    
+
+**********************************************************************************************	
+What sessionFactory , session and why there are ThreadSafe or not ?
+  SessionFactory is used to create an instance of session. SessionFactory is a factory of session.
+  	
+  The internal state of a SessionFactory is immutable. Most problems with concurrency occur due to sharing 
+  of objects with mutable state. Once the object is immutable, its internal state is setted on creation and 
+  cannot be changed. So many threads can access it concurrently and request for sessions.
+  
+  Session factory objects are to be implemented using the singleton design pattern. Instances of SessionFact-
+  ory are thread-safe and typically shared throughout an application.
+  
+  Session is use to maintain connection between Hibernate application and database.
+  But the session objects are not thread safe. So in short it is - SessionFactory objects are one per applic-
+  ation and Session objects are one per client.  we can create as many session we want and we close it as
+  per our requirment
+  
+  http://docs.jboss.org/hibernate/core/3.5/api/org/hibernate/SessionFactory.html (complete understanding).
+  
+Configuration of sessionFactory in XML file ?
+    <bean id="hibernateTransactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+	  <property name="sessionFactory" ref="sessionFactory" /> // sessionFactory
+    </bean>  // this bean is called a transactionManager
+ 
+    <tx:annotation-driven transaction-manager="hibernateTransactionManager"/> // declarative Transaction
+ 
+How to get Session from sessionFactory ?
+	Session session = sessionFactory.openSession(); // an example is at the end of the page.. 
+	open session
+	open transaction
+	build query / criteria
+	execute query over session
+	close transaction
+	close session 
+
+	
+***************************************************************************  
+why get() method hit the database & load() dont.? Then from where load method returns a proxy object ? 
+  get() involves database hit if object doesn't exists in Session Cache and returns a fully initialized obj-
+  ect which may involve several database call
+  while load method can return proxy in place and only initialize the object or hit the database if any meth-
+  od other than getId() is called on persistent or entity object.
+  load method uses lazy fetching and load method returns proxies 
+  get method uses eager fetching and get method doesn't return proxies 
+  
+
+How load() method works ?
+	When ever the load() method is called, the hibernate creates a proxy object of a POJO class (provided as parameter), and it will set the id to 
+	the proxy object, then it returns the proxy object to the program. Based on the operations performed on the proxy object, the hibernate will dec-
+	ide whether to go cache or database to load the data. This process is called lazy loading.
+
+	When we access non-id property (not a primary key) of proxy object then hibernate first goes to first level cache and if that object doesn’t av-
+	ailable in the cache then hibernate goes to database for loading an object.
+ 
+  
+fetch mode is used to load objects in association. 
+fetch strategy is used to load data from database for entities. 
+
+EAGER - means load all the associated items whenever the entity is loaded. 
+LAZY - loads only the proxy object. 
+
+The entity can be retrieved in 2 ways. 
+load() - returns the proxy object with an identifier. 
+get() - returns the complete object from database. 
+By default, hibernate loads all entities by lazy fetching strategy. It can be disabled by setting lazy = false on Entity definition. 
+
+What is target Object & Proxy Object ?
+
+***************************************************************************************
+
+save , persist and saveOrUpdate in Hibernate ?
+    Hibernate Session class provides couple of ways to save object into database by methods like save, saveOrUpdate and persist.
+    	
+Difference between save and saveOrUpdate in Hibernate? 
+    save() method saves records into database by INSERT SQL query, Generates a new identifier and return the Serializable identifier back
+	On the other hand  saveOrUpdate() method either INSERT or UPDATE based upon existence of object in database. If persistence object already exists in database then UPDATE SQL will execute and if there is no corresponding object in database than INSERT will run.
+
+
+Difference between save and persist method in Hibernate
+1)  First difference between save and persist is there return type. Similar to save method persist also INSERT records into database but return type 
+    of persist is void while return type of save is Serializable object. 
+2)  there behavior on outside of transaction boundaries. 
+    persist() method guarantees that it will not execute an INSERT statement if it is called outside of transaction boundaries.
+	save() method does not guarantee the same, it returns an identifier, and if an INSERT has to be executed to get the identifier (e.g. "identity" 
+	generator), this INSERT happens immediately, no matter if you are inside or outside of a transaction.
+3)  Another difference between persist and save is that both methods make a transient instance persistent. However, persist() method doesn't guaran-
+    tee that the identifier value will be assigned to the persistent instance immediately, the assignment might happen at flush time.
+4)  above behavior of persist method outside transaction boundary, its useful in long-running conversations with an extended Session context. On the 
+    other hand save method is not good in a long-running conversation with an extended Session context.
+
+Difference Between Update and Merge methods In Hibernate?
+1)  update() and merge() methods seems similar because both of them are used to convert the object which is in detached state into persistence state.
+    but the major difference between update and merge is that update method cannot be used when the same object exists in the session.
+2)  In such senario use merge() to update the value,merge() methods will come into picture when ever we try to load the same object again and again 
+    into the database.
+3)  Update():- if you are sure that the session does not contains an already persistent instance with the same identifier,then use update to save the
+    data in hibernate 
+4)  Merge():-if you want to save your modificatiions at any time with out knowing abot the state of an session, then use merge() in hibernate.
+
+*****************************************************************************************************
+
+Dirty Checking in Hibernate ?
+	Dirty checking freatures in hibernate , calls update() automatically on the object , that is modified in the transaction.
+	 
+    In dirty checking, hibernate automatically detects whether    an object is modified (or) not and need to be updated. As long as the object is in 
+    persistent state i.e., bound to a particular Session(org.hibernate.Session). Hibernate monitors any changes to the objects and executes sql.
+	Note:- For dirty checking to work, the object must exist in cache.
+	
+	eg:
+	   //loading a gender object of genderId = 1
+   Gender gender = (Gender)session.get(Gender.class, new Long(1));
+       //print the gender naem
+   System.out.println("gender.getName()=======>"+gender.getName());
+       //modify the gender name
+   gender.setName("female");
+   session.getTransaction().commit();
+   session.flush();
+   
+In the above client application, gender object is loaded first. and then object state is changed by altering the name  of the object. Here, we are 
+not calling update() , even though object state is written to the database. This is called automatic dirty checking. Hibernate monitors whether any 
+changes in the session objects and automatically synchronizes them to database.
+session.getTransaction.commit() is mandatory. Because, after any modifications, if commit() is not called then data will not be modified in the 
+database eventhough update query is executed.
+
+*****************************************************************************************************************
+Query Cache in Hibernate ?
+Hibernate implements a cache region for queries resultset that integrates closely with the hibernate second-level cache.
+    line to the Hibernate configuration.
+    <property name="hibernate.cache.use_query_cache">true</property>
+    
+	Query query = session.createQuery("from Person p where p.id=1");
+    query.setCacheable(true);
+    query.setCacheRegion("ALL_EMP");
+    
+
+*****************************************************************************************************************
+native sql query in hibernate?
+    Native SQL Query comes handy when we want to execute database specific queries that are not supported by Hibernate API such as query hints or the 
+    CONNECT keyword in Oracle Database. 
+    Your application will create a native SQL query from the session with the createSQLQuery() method on the Session interface.:
+    String sql = "SELECT first_name, salary FROM EMPLOYEE";
+	SQLQuery query = session.createSQLQuery(sql);
+	query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
+	List results = query.list();
+	
+****************************************************************************************************************
+Hibernate Named Query	?
+    Hibernate provides Named Query that we can define at a central location and use them anywhere in the code.JPA annotations @NamedQuery and @NamedNativeQuery.
+	This should be used above @entity anotation like 
+    @NamedQuery(
+	    name="Transaction.findAllTransaction",
+	    query="SELECT t FROM Transaction t")
+
+****************************************************************************************************************
+
+Cretia Api in hibernate ?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+In our web application we have a HibernateSessionFactory class, that is opening and closing connections. Everything is okay, but when we are updat-
+ing data in the database, it doesn't change in our application. Unfortunately, we see old data from the database. How can I fix it?
+
+public class HibernateSessionFactory {
+
+    private static final ThreadLocal threadLocal = new ThreadLocal();
+    private static org.hibernate.SessionFactory sessionFactory;
+
+    private static Configuration configuration = new Configuration();
+    private static ServiceRegistry serviceRegistry; 
+
+    private static final Logger log = Logger.getLogger(HibernateSessionFactory.class);
+
+    static {
+        try {
+            configuration.configure();
+            serviceRegistry = new ServiceRegistryBuilder().applySettings(configuration.getProperties())
+            . buildServiceRegistry();
+            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+        } catch (Exception e) {
+            log.error("Error Creating SessionFactory",e);
+
+        }
+    }
+
+    private HibernateSessionFactory() {
+    }
+
+    public static Session getSession() throws HibernateException {
+        Session session = (Session) threadLocal.get(); 
+        if (session == null || !session.isOpen()) {
+            if (sessionFactory == null) {
+                rebuildSessionFactory();
+            }
+            session = (sessionFactory != null) ? sessionFactory.openSession()
+            : null;
+
+            threadLocal.set(session);
+        }
+        return session;
+    }
+
+    public static void rebuildSessionFactory() {
+
+        try {
+            configuration.configure();
+            serviceRegistry = new ServiceRegistryBuilder(). applySettings(configuration.getProperties()) 
+            .buildServiceRegistry();
+            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+        } catch (Exception e) {
+            log.error("Error Creating SessionFactory",e);
+        }
+    }
+
+    public static void closeSession() throws HibernateException {
+        Session session = (Session) threadLocal.get();
+        threadLocal.set(null);
+        if (session != null) {
+            session.flush();
+            session.close();
+
+        }
+    }
+
+    public static org.hibernate.SessionFactory getSessionFactory() {
+        return sessionFactory;
+    }
+
+    public static Configuration getConfiguration() {
+        return configuration;
+    }
+}
+
+To achive the above problem ( after getting session do this )
+open session
+open transaction
+build object
+flush and save object in session
+commit transaction
+close transaction
+close session
+
+	
+Hibernate is a sofisticated and complex framework for building a layer between your program and the database, providing an object oriented model to help object oriented programs in their job.
+
+In order to do this, and to be more performat of course, it creates a cache which stores somehow some of the data coming from the database, or going to the database.
+
+I think that this problem is NOT concerning the connection to the database but rather how you save and retrive data. I'll try to explain my self better: when you query database to save data you do the following steps:
+
+open session
+open transaction
+build object
+flush and save object in session
+commit transaction
+close transaction
+close session
+
+eg
+public Boolean saveNewCliente(Cliente c) {
+    Session s = getSession();
+    Transaction t = null;
+    try {
+        t = s.beginTransaction();
+        s.save(c);
+        s.flush();
+        t.commit();
+        s.close();
+        return true;
+    } catch (Exception e) {
+         if (t!=null) t.rollback();
+        System.out.println(e.getMessage());
+        return false;
+    }
+    finally{
+        s.close();
+    }
+
+}	  
+
+open session
+open transaction
+build query / criteria
+execute query over session
+close transaction
+close session     
+http://stackoverflow.com/questions/19346585/hibernate-session-factory
+
+/*********************************************another example************************************/
+http://howtodoinjava.com/hibernate/hibarnate-4-how-to-build-sessionfactory/
+
+package com.howtodoinjava.demo.util;
+ 
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
+ 
+public class HibernateUtil
+{
+   private static SessionFactory sessionFactory = buildSessionFactory();
+ 
+   private static SessionFactory buildSessionFactory()
+   {
+      try
+      {
+         if (sessionFactory == null)
+         {
+            Configuration configuration = new Configuration().configure(HibernateUtil.class.getResource("/hibernate.cfg.xml"));
+            StandardServiceRegistryBuilder serviceRegistryBuilder = new StandardServiceRegistryBuilder();
+            serviceRegistryBuilder.applySettings(configuration.getProperties());
+            ServiceRegistry serviceRegistry = serviceRegistryBuilder.build();
+            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+         }
+         return sessionFactory;
+      } catch (Throwable ex)
+      {
+         System.err.println("Initial SessionFactory creation failed." + ex);
+         throw new ExceptionInInitializerError(ex);
+      }
+   }
+ 
+   public static SessionFactory getSessionFactory()
+   {
+      return sessionFactory;
+   }
+ 
+   public static void shutdown()
+   {
+      getSessionFactory().close();
+   }
+}

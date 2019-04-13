@@ -1,0 +1,40 @@
+An Example To Prove Strings Are Immutable :
+
+First, create one string object ‘s1’ using string literal “JAVA”.
+String s1 = "JAVA";
+
+Create one more string object ‘s2’ using the same string literal “JAVA”.
+String s2 = "JAVA";
+We have seen in the previous article that string objects created using string literal are stored in the String Constant Pool and any 
+two objects in the pool can’t have same content. Here s1 and s2 are created using same literal. Therefore, they will be pointing to 
+same object in the pool. Then s1 == s2 should return true.
+
+System.out.println(s1 == s2);       //Output : true
+Now, I want to make little modification to this object through ‘s1’ reference. I want to append “J2EE” at end of this string through ‘s1’. 
+That can be done like below,
+
+s1 =s1 + "J2EE";
+This statement appends “J2EE” to the object to which s1 is pointing and re-assigns reference of that object back to s1.
+
+Now, compare physical address of s1 and s2 using “==” operator. This time it will return false.
+
+System.out.println(s1 == s2);       //Output : false
+That means now both s1 and s2 are pointing to two different objects in the pool. Before modifications they are pointing to same object. 
+Once we tried to change the content of the object using ‘s1’, a new object is created in the pool with “JAVAJ2EE” as it’s content and it’s 
+reference is assigned to s1. If the strings are mutable, both s1 and s2 should point to same object even after modification. That never 
+happened here. That proves the string objects are immutable in java.
+
+When To Use “==”, equals() And hashCode() On Strings
+“==” operator compares the two objects on their physical address. That means if two references are pointing to same object in the memory, 
+then comparing those two references using “==” operator will return true. For example, if s1 and s2 are two references pointing to same 
+object in the memory, then invoking s1 == s2 will return true.This type of comparison is called “Shallow Comparison”.
+
+equals() method, if not overrided, will perform same comparison as “==” operator does i.e comparing the objects on their physical address. 
+So, it is always recommended that you should override equals() method in your class so that it provides field by field comparison of two 
+objects. This type of comparison is called “Deep Comparison”.
+
+hashCode() method returns hash code value of an object in the Integer form. It is recommended that whenever you override equals() method, 
+you should also override hashCode() method so that two equal objects according to equals() method must return same hash code values. This 
+is the general contract between equals() and hashCode() methods that must be maintained all the time.
+
+

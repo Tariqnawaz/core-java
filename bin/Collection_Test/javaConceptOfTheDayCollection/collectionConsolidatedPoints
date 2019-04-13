@@ -1,0 +1,301 @@
+Collection:
+Collections in java is a framework that provides an architecture to store and manipulate the group of objects.
+
+List Interface Consolidated Points:
+1. List Interface represents an ordered or sequential collection of objects. ArrayList, Vector and LinkedList implements this
+   interface. Elements of the lists are ordered using Zero based index.List interface extends Collection interface.
+
+Queue Interface Consolidated Points:  
+1. The Queue Interface extends Collection interface. It defines queue data structure First-In-First-Out i.e  elements are added 
+   from one end called tail and elements are removed from another end called head
+2. That means an element which is inserted first will be the first element to be removed from the queue. You can’t add or get or 
+   set elements at an arbitrary position in the queues.
+   
+Deque Interface Consolidated Points: 
+1. The Deque is the short name for “Double Ended Queue“.That means, you can insert, retrieve and remove the elements from 
+   both the ends and is a linear collection of objects. It extends Queue interface.
+
+Set Interface Consolidated Points:
+1. The Set interface extends Collection interface.It inherits all method from Collection interface. Set interface does not have 
+   it’s own methods. The only change add() method will return false if you try to insert duplicate element.  
+2. The Set interface defines a set. The set is a linear collection of objects with no duplicates.
+
+SortedSet Interface Consolidated Points:
+1. The SortedSet interface extends Set interface. SortedSet elements are placed according to supplied comparator. 
+2. This Comparator is supplied while creating a SortedSet. If you don’t supply comparator, elements will be placed in ascending order.
+   (Refer image SortedSetInterface.png for complete understanding).   
+
+NavigableSet Interface Consolidated Points:
+1. The NavigableSet interface extends SortedSet interface with navigation facilities. The NavigableSet interface provides many 
+   methods through them you can easily find closest matches of any given element. 
+2. It has the methods to find out less than, less than or equal to, greater than and greater than or equal of any element in a 
+   SortedSet.
+
+Map Interface Consolidated Points:
+1. It starts it’s own interface hierarchy,but it doesn’t inherit Collection Interface.Map interface stores the data as a key-value
+   pairs where each key is associated with a value.A map can not have duplicate keys but can have duplicate values.
+2. Each key-value pairs of the map are stored as Map.Entry objects. Map.Entry is an inner interface of Map interface.
+3. The common implementations of Map interface are HashMap, LinkedHashMap and TreeMap.
+
+ArrayList Class Consolidated Points:
+1. ArrayList class uses dynamic array for storing the element. It extends AbstractList class and implements List Interface . It is 
+   not synchronised and maintain insertion order and can contain duplicate value.
+   
+LinkedList Class Consolidated Points:
+1. Java LinkedList class uses doubly linked list to store the elements. It extends the AbstractList class and implements List and 
+   Deque interfaces.Java LinkedList class maintains insertion order, it can contain duplicate elements and it is non synchronized.  
+
+Vector Class Consolidated Points:
+Vector  is a interface that provide the capability for growable array of object .Vector is slow because it is synchronized    
+
+HashSet Class consolidated points:
+1. Java HashSet class uses HashMap internally to store the objects.It extends AbstractSet class and implements Set interface.         
+   Contains unique elements only.The keys of that HashMap object will be the elements of HashSet .HashSet can have maximum one 
+   null element.HashSet class is not synchronized. If you want synchronized HashSet, use Collections.synchronizedSet() method.
+2. Every constructor of HashSet class internally creates one HashMap object. Whenever you insert an element into HashSet using add()
+   method, it actually creates an entry in HashMap object with element as it’s key and constant called “PRESENT” as it’s value. 
+   Where persent is a constant which is defined as private static final Object PRESENT = new Object();
+   
+LinkedHashSet Class consolidated points:
+1. It extends HashSet class and implements Set interface.Contains unique elements only like HashSet.Maintains insertion order and
+   doesn’t allow duplicate elements and allows only one null element.
+2. LinkedHashSet internally uses LinkedHashMap to store it’s elements.It is not synchronized. To get the synchronized LinkedHashSet,
+   use Collections.synchronizedSet() method.   
+
+TreeSet class consolidated points:
+1. The TreeSet class implements NavigableSet interface that extends the SortedSet interface.Contains unique elements only like 
+   HashSet.Maintains ascending order. TreeSet does not allow even a single null element. TreeSet is not synchronized. To get a 
+   synchronized TreeSet, use Collections.synchronizedSortedSet() method.
+2. TreeSet internally uses TreeMap to store it’s elements.The elements in TreeSet are sorted according to specified Comparator. 
+   If no Comparator is specified, elements will be placed according to their natural ascending order.   
+3. TreeSet doesn’t use hashCode() and equals() methods to compare it’s elements. It uses compare() (or compareTo())
+   method to determine the equality of two elements.   
+   
+HashMap class consolidate points:   
+1. A HashMap contains values based on the key. It implements the Map interface and extends AbstractMap class.It contains only 
+   unique elements.It doesn’t allow duplicate keys but can have duplicate values.It can have multiple null values and only one 
+   null key.HashMap maintains no order. 
+2. HashMap is not synchronized.To synchronized HashMap, use Collections.synchronizedMap() method. Default initial capacity of 
+   HashMap is 16.   
+3. HashMap stores the data in the form of key-value pairs. Each key-value pair is stored in an object of Entry<K, V> class. 
+   Entry<K, V> class is the static inner class of HashMap which is defined like below.   
+
+LinkedHashMap class consolidate points: 
+1. A LinkedHashMap contains values based on the key. It implements the Map interface and extends HashMap class.It contains only 
+   unique elements.It may have one null key and multiple null values.It is same as HashMap instead maintains insertion order.
+   
+TreeMap class consolidate points: 
+1. A TreeMap contains values based on the key. It implements the NavigableMap interface and extends AbstractMap class.It contains 
+   only unique elements.It cannot have null key but can have multiple null values.It is same as HashMap instead maintains ascending order.
+
+HashMap class consolidate points: 
+1. A Hashtable is an array of list.Each list is known as a bucket.The position of bucket is identified by calling the hashcode() method.
+   A Hashtable contains values based on the key. It implements the Map interface and extends Dictionary class. It contains only unique
+   elements. It may have not have any null key or value. It is synchronized.
+
+/********************************************************************************************************************************/
+
+List Interface:
+1. List Interface represents an ordered or sequential collection of objects.
+2. This interface has some methods which can be used to store and manipulate the ordered collection of objects.
+3. The classes which implement the List interface are called as Lists. 
+4. ArrayList, Vector and LinkedList are some examples of lists.
+properties of lists.
+5. Elements of the lists are ordered using Zero based index.
+6. You can access the elements of lists using an integer index.
+7. Elements can be inserted at a specific position using integer index. Any pre-existing elements at or beyond that position are 
+   shifted right.
+8. Elements can be removed from a specific position. The elements beyond that position are shifted left.
+9. A list may contain duplicate elements.A list may contain multiple null elements.
+10.List interface extends Collection interface. So, All 15 methods of Collection interface are inherited to List interface. 
+   Along with these methods, another 9 methods are included in the List interface to support the properties of lists. Here is the 
+   class diagram of List interface.(Refer image ListInterface.png for complete understanding).
+   
+Queue Interface:
+1. The Queue Interface extends Collection interface. It defines queue data structure which is normally First-In-First-Out. Queue is 
+   a data structure in which elements are added from one end and elements are deleted from another end.
+How Typical Queue Works
+2. Queue is a data structure where elements are added from one end called tail of the queue and elements are removed from another 
+   end called head of the queue. 
+3. That means an element which is inserted first will be the first element to be removed from the queue. You can’t add or get or 
+   set elements at an arbitrary position in the queues.
+
+Deque Interface:
+1. The Deque is the short name for “Double Ended Queue“. As the name suggest, Deque is a linear collection of objects which supports 
+   insertion and removal of elements from both the ends. The Deque interface defines the methods needed to insert, retrieve and 
+   remove the elements from both the ends.
+2. The Deque interface is introduced in Java SE 6. It extends Queue interface. Here is the hierarchy diagram of Deque interface.
+   (Refer image Deque.png for complete understanding).	
+How Deque – Double Ended Queue Works?
+3. As already said, Deque is nothing but the double ended queue. That means, you can insert, retrieve and remove the elements from 
+   both the ends. Below diagram shows how Deque works.(Refer image HowDequeWorks.png for complete understanding).   
+   
+Set Interface:
+1. The Set interface defines a set. The set is a linear collection of objects with no duplicates. Duplicate elements are not allowed 
+   in a set. 
+2. The Set interface extends Collection interface. Set interface does not have it’s own methods. All it’s methods are 
+   inherited from Collection interface. 
+3. The only change that has been made to Set interface is that add() method will return false if you try to insert an element which 
+   is already present in the set.(Refer image SetInterface.png for complete understanding).   
+
+SortedSet Interface:
+1. The SortedSet interface extends Set interface. SortedSet is a set in which elements are placed according to supplied comparator. 
+2. This Comparator is supplied while creating a SortedSet. If you don’t supply comparator, elements will be placed in ascending order.
+   (Refer image SortedSetInterface.png for complete understanding).   
+
+NavigableSet Interface:
+1. The NavigableSet is a SortedSet with navigation facilities. The NavigableSet interface provides many methods through them you can 
+   easily find closest matches of any given element. 
+2. It has the methods to find out less than, less than or equal to, greater than and greater than or equal of any element in a 
+   SortedSet.
+3. The NavigableSet interface extends SortedSet interface. Here is the hierarchy diagram of NavigableSet Interface.(Refer image 
+   NavigableInterface.png for complete understanding).   
+
+Map Interface:
+1. It doesn’t inherit from Collection interface. Instead it starts it’s own interface hierarchy for maintaining the key-value 
+   associations. Map is an object of key-value pairs where each key is associated with a value.   
+2. Map interface is a part of Java Collection Framework, but it doesn’t inherit Collection Interface.
+3. Map interface stores the data as a key-value pairs where each key is associated with a value.
+4. A map can not have duplicate keys but can have duplicate values.
+5. Each key at most must be associated with one value.
+6. Each key-value pairs of the map are stored as Map.Entry objects. Map.Entry is an inner interface of Map interface.
+7. The common implementations of Map interface are HashMap, LinkedHashMap and TreeMap.
+8. Order of elements in map is implementation dependent. HashMap doesn’t maintain any order of elements. LinkedHashMap maintains 
+   insertion order of elements. Where as TreeMap places the elements according to supplied Comparator.(Image MapInterface.png).
+
+      
+  
+ArrayList:
+1. ArrayList class implements List interface and extends AbstractList. It also implements 3 marker interfaces – RandomAccess, 
+   Cloneable and Serializable. Here is hierarchy diagram of ArrayList class.(Refer image ArrayListClass.png for complete understanding).
+2. You can define ArrayList as re-sizable array. Size of the ArrayList is not fixed. ArrayList can grow and shrink dynamically.
+3. Elements can be inserted at or deleted from a particular position.
+4. ArrayList class has methods to perform solo modifications ( add(), remove()… ), bulk modifications ( addAll(), removeAll(), 
+   retainAll()… ), searching( indexOf(), lasIndexOf() ) and iterations( iterator() ).
+5. You can traverse an ArrayList in both the directions – forward and backward using ListIterator.
+6. ArrayList can hold multiple null elements.
+Different Ways Of Iterating An ArrayList In Java
+7. Using Normal for loop , Using Iterator , Using ListIterator , Using Enhanced for loop .
+
+Vector Class:
+1. The Vector Class is also dynamically grow-able and shrink-able collection of objects like an ArrayList class. But, the main 
+   difference between ArrayList and Vector is that Vector class is synchronized. That means, only one thread can enter into vector 
+   object at any moment of time.
+2. Unlike an ArrayList, you can set the size of the Vector manually. If the new size is greater than the current size, the new slots 
+   will be filled with null elements. If the new size is smaller than current size, then the extra elements will be discarded.  
+3. You can traverse the vector using Enumeration object. Vector class has a method called elements() which returns an Enumeration object 
+   consisting of all elements of Vector.    
+4. Vector class has separate methods to retrieve first and last element of vector object. You will not find these methods in 
+   ArrayList class. firstElement() retrieves first element and lastElement() method retrieves last element of the vector.   
+Why Not To Use Vector Class In Your Code
+1. You can achieve Thread Safety without Vector.Vector class has only one advantage over ArrayList i.e it is thread safety. But, you 
+   can achieve thread safe ArrayList by using synchronizedList() method of Collections class.   
+   
+/*********************************************************Sets************************************************************/
+HashSet:
+1. HashSet class uses HashMap internally to store the objects. The keys of that HashMap object will be the elements of HashSet and 
+   their values will be a constant. HashSet does not allow duplicate elements.   
+2. HashSet can have maximum one null element.
+3. HashSet doesn’t maintain any order. The order of the elements will be largely unpredictable. And it also doesn’t guarantee that 
+   order will remain constant over time.
+4. HashSet offers constant time performance for insertion, removal and retrieval operations.
+5. HashSet class is not synchronized. If you want synchronized HashSet, use Collections.synchronizedSet() method.   
+How HashSet Works Internally In Java
+6. HashSet uses HashMap internally to store it’s objects. Whenever you create a HashSet object, one HashMap object associated with 
+   it is also created. 
+7. This HashMap object is used to store the elements you enter in the HashSet. The elements you add into HashSet  are stored as keys 
+   of this HashMap object. The value associated with those keys will be a constant.
+8. Every constructor of HashSet class internally creates one HashMap object.
+9. Whenever you insert an element into HashSet using add() method, it actually creates an entry in the internally backing HashMap 
+   object with element you have specified as it’s key and constant called “PRESENT” as it’s value.   
+10.Where persent is a constant which is defined as private static final Object PRESENT = new Object();
+11.If you want your elements to be ordered in some way, you can use LinkedHashSet or TreeSet.
+
+LinkedHashSet:
+1. The LinkedHashSet in java is an ordered version of HashSet which internally maintains one doubly linked list running through 
+   it’s elements.This doubly linked list is responsible for maintaining the insertion order of the elements.
+2. The LinkedHashSet class extends HashSet class and implements Set interface. It also implements Cloneable and Serializable marker 
+   interfaces.
+3. LinkedHashSet internally uses LinkedHashMap to store it’s elements just like HashSet which internally uses HashMap to store it’s 
+   elements. 
+4. LinkedhashSet also gives constant time performance for insertion, removal and retrieval operations. The performance of 
+   LinkedHashSet is slightly less than the Hashset as it has to maintain doubly linked list internally to order it’s elements.
+5. LinkedHashSet doesn’t allow duplicate elements and allows only one null element.
+6. LinkedHashSet is not synchronized. To get the synchronized LinkedHashSet, use Collections.synchronizedSet() method.
+How LinkedHashSet Works Internally In Java
+7. LinkedHashSet is an extended version of HashSet.LinkedHashSet uses LinkedHashMap object internally to store and process it’s 
+   elements. 
+8. LinkedHashSet doesn’t have it’s own methods. All methods are inherited from it’s super class i.e HashSet. So. all operations on 
+   LinkedHashSet work in the same manner as that of HashSet.
+9. The only change is LinkedHashSet, elements you insert are stored as keys of LinkedHashMap object.
+How LinkedHashSet Maintains Insertion Order
+10.LinkedHashSet uses LinkedHashMap object to store it’s elements. The elements you insert in the LinkedHashSet are stored as keys of 
+   this LinkedHashMap object. Each key, value pair in the LinkedHashMap are instances of it’s static inner class called Entry<K, V>. 
+11.This Entry<K, V> class extends HashMap.Entry class. The insertion order of elements into LinkedHashMap are maintained by adding 
+   two new fields to this class. They are before and after. These two fields hold the references to previous and next elements. 
+   These two fields make LinkedHashMap to function as a doubly linked list.
+12.                    
+
+TreeSet:
+1. TreeSet Maintain the ascending order.
+2. TreeSet are sorted according to supplied Comparator. 
+3. You need to supply this Comparator while creating a TreeSet itself. If you don’t pass any Comparator while creating a TreeSet, 
+   elements will be placed in their natural ascending order.
+4. The TreeSet class in java is a direct implementation of NavigableSet interface which in turn extends SortedSet interface.
+Properties Of TreeSet Class In Java
+5. The elements in TreeSet are sorted according to specified Comparator. If no Comparator is specified, elements will be placed 
+   according to their natural ascending order.
+6. Elements inserted in the TreeSet must be of Comparable type and elements must be mutually comparable. If the elements are not 
+   mutually comparable, you will get ClassCastException at run time. 
+7. TreeSet does not allow even a single null element.
+8. TreeSet is not synchronized. To get a synchronized TreeSet, use Collections.synchronizedSortedSet() method.
+9. TreeSet internally uses TreeMap to store it’s elements just like HashSet and LinkedHashSet which use HashMap and LinkedHashMap 
+   respectively to store their elements. 
+10.Important Note : TreeSet doesn’t use hashCode() and equals() methods to compare it’s elements. It uses compare() (or compareTo())
+   method to determine the equality of two elements.     
+   
+/*********************************************************Sets************************************************************/
+HashMap:
+Properties Of HashMap In Java :
+1) HashMap holds the data in the form of key-value pairs where each key is associated with one value.
+2) HashMap doesn’t allow duplicate keys. But it can have duplicate values.
+3) HashMap can have multiple null values and only one null key.
+4) HashMap is not synchronized. To get the synchronized HashMap, use Collections.synchronizedMap() method.
+5) HashMap maintains no order.
+6) HashMap gives constant time performance for the operations like get() and put() methods.
+7) Default initial capacity of HashMap is 16.         
+HashMap Works Internally In Java?
+8. HashMap stores the data in the form of key-value pairs. Each key-value pair is stored in an object of Entry<K, V> class. 
+   Entry<K, V> class is the static inner class of HashMap which is defined like below.
+9. 
+
+What Is Hashing?
+1. The whole HashMap data structure is based on the principle of Hashing. Hashing is nothing but the function or algorithm or method 
+   which when applied on any object/variable returns an unique integer value representing that object/variable. 
+2. This unique integer value is called hash code. Hash function or simply hash said to be the best if it returns the same hash code 
+   each time it is called on the same object. Two objects can have same hash code.
+3. Whenever you insert new key-value pair using put() method, HashMap blindly doesn’t allocate slot in the table[] array. Instead it 
+   calls hash function on the key. HashMap has its own hash function to calculate the hash code of the key. This function is 
+   implemented so that it overcomes poorly implemented hashCode() methods. Below is implementation code of hash().   
+
+Difference Between Iterator And ListIterator In Java. 
+1. Using Iterator, you can traverse List, Set and Queue type of objects. But using ListIterator, you can traverse only List 
+   objects. In Set and Queue types, there is no method to get the ListIterator object. But, In List types, there is a method 
+   called listIterator() which returns ListIterator object.   
+2. Using Iterator, we can traverse the elements only in forward direction. But, using ListIterator you can traverse the 
+   elements in both the directions – forward and backward.   
+3. Using ListIterator, you can obtain index of next and previous elements. But, it is not possible with Iterator interface.
+4. Using ListIterator, you can perform modifications(insert, replace, remove) on the list. But, using Iterator you can only remove the 
+   elements from the collection.
+5. Using ListIterator, you can iterate a list from the specified index. It is not possible with Iterator.   
+
+
+
+
+
+
+
+
+
+
+   

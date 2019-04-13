@@ -1,0 +1,81 @@
+											Introduction To Threads In Java
+Application :
+-Application is a program which is designed to perform a specific task. For example, MS Word, Google Chrome, a video or 
+ audio player etc.
+ 
+Process :
+-Process is an executing instance of an application. For example, when you double click MS Word icon in your computer, 
+ you start a process that will run this MS word application. Processes are heavy weight operations that they require their
+ own separate memory address in operating system. Because of the processes are stored in separate memory, communication between
+ processes (Inter Process Communication) takes time. Context switching from one process to another process is also expensive.	
+ 
+Thread :
+-Thread is a smallest executable unit of a process. Thread has it’s own path of execution in a process. For example, when you 
+ start MS word, operating system creates a process and start the execution of a primary thread of that process. A process can 
+ have multiple threads. Threads of the same process share the memory address of that process. i.e threads are stored inside the 
+ memory of a process. As the threads are stored in the same memory space, communication between threads (Inter Thread Communication) 
+ is fast. Context switching from one thread to another thread is also less expensive.
+
+Processes and threads can be diagrammatically (check the image)	
+
+Multitasking :
+-Multitasking is an operation in which multiple tasks are performed simultaneously. Multitasking is used to utilize CPU’s idle time. 
+ Multitasking can be of two types. One is process-based and another one is thread-based.
+1) Process-based multitasking Or Multiprocessing :
+   In process-based multitasking or multiprocessing, Multiple processes are executed simultaneously. You are all familiar with 
+   process-based multitasking. Because of this feature only, your computer runs two or more programs simultaneously. For example, 
+   You can play a video file and print a text file simultaneously in your computer.
+
+2)Thread-based Multitasking  Or Multithreading:
+  In thread-based multitasking or multithreading, multiple threads in a process are executed simultaneously. For example, MS word 
+  can print a document using background thread, at the same another thread can accept the user input so that user can create a new 
+  document.				
+  
+/* Thread Interference In Java */  
+Multithreading has it’s own pros and cons. The main advantage of multithreading is that we can perform multiple tasks simultaneously. 
+At the same time it is a challenge for software developers to protect the memory into which thread are reading or writing. There is no 
+problem when multiple threads have their own memory. Each thread will be reading or writing into their own memory. There is a challenge 
+when multiple threads share same memory. Every thread will be reading or writing into same memory. This creates inconsistent data in the 
+memory. For example,
+
+If a thread reads a memory while another thread writes into it, what value will be the first thread end up reading? is it the old value 
+or value written by the second thread? If two threads are writing into same memory, then what value will be stored in that memory? is it 
+value written by the first thread or the value written by the second thread? Questions like these will arise when multiple threads share 
+same memory. Thread interference is also one of them.
+
+Thread interference in java is a condition which occurs when more than one threads, executing simultaneously, access same piece of data. 
+When more than one threads have access to same data, it is possible that data may get corrupted or one may not get the desired output. 
+Thread interference occurs when code written is not thread safe.
+
+/*Synchronization In Java */
+Synchronization in java is a strategy or a method to avoid thread interference and hence protecting the data from inconsistency. 
+synchronization is also one of the way to make code thread safe. Through synchronization, we can make the threads to execute particular 
+method or block in sync not simultaneously.
+ 
+Synchronization in java is implemented using synchronized keyword. synchronized keyword can be used with methods or blocks but not with 
+the variables.
+
+When a method or block is declared as synchronized, only one thread can enter into that method or block. When one thread is executing 
+synchronized method or block, the other threads which wants to execute that method or block wait or suspend their execution until first 
+thread is done with that method or block. Thus avoiding the thread interference and achieving thread safeness. 
+  
+The Logic Behind The Synchronization In Java :
+The synchronization in java is built around an entity called object lock or monitor. Here is the brief description about lock or monitor.
+
+Whenever an object is created to any class, an object lock is created and is stored inside the object.
+One object will have only one object lock associated with it.
+Any thread wants to enter into synchronized methods or blocks of any object, they must acquire object lock associated with that object 
+and release the lock after they are done with the execution.
+The other threads which wants to enter into synchronized methods of that object have to wait until the currently executing thread releases 
+the object lock.
+To enter into static synchronized methods or blocks, threads have to acquire class lock associated with that class as static members are 
+stored inside the class memory.  
+
+/* Synchronized Blocks : */
+Some times, you need only some part of the method to be synchronized not the whole method. This can be achieved with synchronized blocks. 
+Synchronized blocks must be defined inside a definition blocks like methods, constructors, static initializer or instance initializer.
+
+synchronized block takes one argument and it is called mutex. if synchronized block is defined inside non-static definition blocks like 
+non-static methods, instance initializer or constructors, then this mutex must be an instance of that class. If synchronized block is 
+defined inside static definition blocks like static methods or static initializer, then this mutex must be like ClassName.class.
+  				

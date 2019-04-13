@@ -1,0 +1,58 @@
+Read Mee
+Composite
+
+Advantage of Composite Design Pattern
+It defines class hierarchies that contain primitive and complex objects.
+It makes easier to you to add new kinds of components.
+It provides flexibility of structure with manageable class or interface.
+
+Usage of Composite Pattern
+It is used:
+When you want to represent a full or partial hierarchy of objects.
+When the responsibilities are needed to be added dynamically to the individual objects without affecting other objects. Where the res-
+ponsibility of object may vary from time to time.
+
+Elements used in Composite Pattern:
+Let's see the 4 elements of composte pattern.
+
+1) Component
+Declares interface for objects in composition.
+Implements default behavior for the interface common to all classes as appropriate.
+Declares an interface for accessing and managing its child components.
+
+2) Leaf
+Represents leaf objects in composition. A leaf has no children.
+Defines behavior for primitive objects in the composition.
+
+3) Composite
+Defines behavior for components having children.
+Stores child component.
+Implements child related operations in the component interface.
+
+4) Client
+Manipulates objects in the composition through the component interface.
+
+2. Example (shape)
+Composite Pattern consists of following objects.
+Base Component – Base component is the interface for all objects in the composition, client program uses base component to work with the objects in the composition. It can be an interface or an abstract class with some methods common to all the objects.
+Leaf – Defines the behaviour for the elements in the composition. It is the building block for the composition and implements base component. It doesn’t have references to other Components.
+Composite – It consists of leaf elements and implements the operations in base component.
+
+Base Component
+Base component defines the common methods for leaf and composites, we can create a class Shape with a method draw(String fillColor) 
+to draw the shape with given color.
+
+Leaf Objects
+Leaf implements base component and these are the building block for the composite. We can create multiple leaf objects such as Triangle, Circle etc.
+
+Composite
+A composite object contains group of leaf objects and we should provide some helper methods to add or delete leafs from the group. We can also provide a method to remove all the elements from the group.
+
+
+3. Example
+This pattern creates a class that contains group of its own objects. This class provides ways to modify its group of same objects.
+We are demonstrating use of composite pattern via following example in which we will show employees hierarchy of an organization.
+
+Implementation
+We have a class Employee which acts as composite pattern actor class. CompositePatternDemo, our demo class will use Employee class to
+ add department level hierarchy and print all employees.

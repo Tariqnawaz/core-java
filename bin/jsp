@@ -1,0 +1,540 @@
+Jsp
+
+How to create Implicit Object in servlet and jsp
+1) out
+
+Servlet - PrintWriter out=response.getWriter(); 
+Jsp - 
+	<html>  
+	<body>  
+	<% out.print("Today is:"+java.util.Calendar.getInstance().getTime()); %>  // here is the code
+	</body>  
+	</html> 
+
+2) request
+   The JSP request is an implicit object of type HttpServletRequest i.e. created for each jsp request 
+   by the web container. It can be used to get request information such as parameter, header informat-
+   ion, remote address, server name, server port, content type, character encoding etc.	
+	
+	Servlet = String user=request.getParameter("uname");
+	
+	index.html
+	<form action="welcome.jsp">  
+	<input type="text" name="uname">  
+	<input type="submit" value="go"><br/>  
+	</form>        
+	
+	welcome.jsp
+	<%   
+	String name=request.getParameter("uname");   // here is the code
+	out.print("welcome "+name);  
+	%>  
+	
+3) response
+	In JSP, response is an implicit object of type HttpServletResponse. The instance of HttpServletResponse 
+	is created by the web container for each jsp request.
+	It can be used to add or manipulate response such as redirect response to another resource, send error etc.
+	
+	index.html
+	<form action="welcome.jsp">  
+	<input type="text" name="uname">  
+	<input type="submit" value="go"><br/>  
+	</form>  
+	
+	welcome.jsp
+	<%   
+	response.sendRedirect("http://www.google.com");  // here is the code
+	%>  	
+	
+4  config
+	In JSP, config is an implicit object of type ServletConfig. This object can be used to get initialization 
+	parameter for a particular JSP page. The config object is created by the web container for each jsp page.
+	Generally, it is used to get initialization parameter from the web.xml file.
+	
+	index.html
+	<form action="welcome">  
+	<input type="text" name="uname">  
+	<input type="submit" value="go"><br/>  
+	</form> 	
+	
+	<web-app>  
+	  	<servlet>  
+		<servlet-name>sonoojaiswal</servlet-name>  
+			<jsp-file>/welcome.jsp</jsp-file>  
+			<init-param>  
+			<param-name>dname</param-name>  
+			<param-value>sun.jdbc.odbc.JdbcOdbcDriver</param-value>  
+			</init-param>  
+		</servlet>  
+		  
+		<servlet-mapping>  
+			<servlet-name>sonoojaiswal</servlet-name>  
+			<url-pattern>/welcome</url-pattern>  
+		</servlet-mapping>  
+	</web-app>  
+	
+	welcome.jsp
+	<%   
+	out.print("Welcome "+request.getParameter("uname"));  
+	String driver=config.getInitParameter("dname");  // here is the code
+	out.print("driver name is="+driver);  
+	%>
+	
+5   application 
+	The instance of ServletContext is created only once by the web container when application or project is 
+	deployed on the server.This object can be used to get initialization parameter from configuaration file 
+	(web.xml). It can also be used to get, set or remove attribute from the application scope.
+	
+	index.html
+	<form action="welcome">  
+	<input type="text" name="uname">  
+	<input type="submit" value="go"><br/>  
+	</form>  
+	
+	web.xml file
+	<web-app>  
+		<servlet>  
+			<servlet-name>sonoojaiswal</servlet-name>  
+			<jsp-file>/welcome.jsp</jsp-file>  
+		</servlet>  
+		  
+		<servlet-mapping>  
+			<servlet-name>sonoojaiswal</servlet-name>  
+			<url-pattern>/welcome</url-pattern>  
+		</servlet-mapping>  
+		  
+		<context-param>  
+			<param-name>dname</param-name>  
+			<param-value>sun.jdbc.odbc.JdbcOdbcDriver</param-value>  
+		</context-param>  
+	</web-app>  
+	
+	welcome.jsp
+	<%   
+	out.print("Welcome "+request.getParameter("uname"));  
+	String driver=application.getInitParameter("dname");  // here is the code
+	out.print("driver name is="+driver);  
+	%>    
+	
+6   session 
+	In JSP, session is an implicit object of type HttpSession.The Java developer can use this object to set,
+	get or remove attribute or to get session information.	
+	
+	index.html
+	<html>  
+	<body>  
+	<form action="welcome.jsp">  
+	<input type="text" name="uname">  
+	<input type="submit" value="go"><br/>  
+	</form>  
+	</body>  
+	</html>  
+	
+	welcome.jsp
+	<html>  
+	<body>  
+	<%   
+	String name=request.getParameter("uname");  
+	out.print("Welcome "+name);  
+	session.setAttribute("user",name);  
+	<a href="second.jsp">second jsp page</a>  
+	%>  
+	</body>  
+	</html>  
+	
+	second.jsp
+	<html>  
+	<body>  
+	<%   
+	String name=(String)session.getAttribute("user");  
+	out.print("Hello "+name);  
+	%>  
+	</body>  
+	</html>  
+	
+7   pageContext
+	In JSP, pageContext is an implicit object of type PageContext class.The pageContext object can be used 
+	to set,get or remove attribute from one of the following scopes: page, request , session , application
+	In JSP, page scope is the default scope.	
+	
+	index.html
+	
+	<html>  
+	<body>  
+	<form action="welcome.jsp">  
+	<input type="text" name="uname">  
+	<input type="submit" value="go"><br/>  
+	</form>  
+	</body>  
+	</html>  
+	
+	welcome.jsp
+	<html>  
+	<body>  
+	<%   
+	String name=request.getParameter("uname");  
+	out.print("Welcome "+name);  
+	pageContext.setAttribute("user",name,PageContext.SESSION_SCOPE);  
+	<a href="second.jsp">second jsp page</a>  
+	%>  
+	</body>  
+	</html>  
+	
+	second.jsp
+	<html>  
+	<body>  
+	<%   
+	String name=(String)pageContext.getAttribute("user",PageContext.SESSION_SCOPE);  
+	out.print("Hello "+name);  
+	%>  
+	</body>  
+	</html>  
+	
+8   page 
+	In JSP, page is an implicit object of type Object class.This object is assigned to the reference of auto 
+	generated servlet class. It is written as:
+	Object page=this;
+	For using this object it must be cast to Servlet type.For example:
+	<% (HttpServlet)page.log("message"); %>
+	Since, it is of type Object it is less used because you can use this object directly in jsp.For example:
+	<% this.log("message"); %>	
+
+9   exception 
+	In JSP, exception is an implicit object of type java.lang.Throwable class. This object can be used to pri-
+	nt the exception. But it can only be used in error pages.It is better to learn it after page directive.
+	
+	error.jsp
+	<%@ page isErrorPage="true" %>  
+	<html>  
+	<body>  
+	  
+	Sorry following exception occured:<%= exception %>  
+	  
+	</body>  
+	</html>  	
+	
+******************************************************************************
+Inclule Diretive : 
+  The include directive is used to includes a file during the translation phase.
+  <%@ include file="relative url" >
+  <jsp:directive.include file="relative url" />
+  
+******************************************************************************
+Taglib Diretive : 
+  The JavaServer Pages API allows you to define custom JSP tags that look like HTML or XML tags and a tag 
+  library is a set of user-defined tags that implement custom behavior.
+  <%@ taglib uri="uri" prefix="prefixOfTag" >
+  <jsp:directive.taglib uri="uri" prefix="prefixOfTag" />
+  
+    <%@ taglib uri="http://www.example.com/custlib" prefix="mytag" %>
+	<html>
+	<body>
+	<mytag:hello/>
+	</body>
+	</html>
+  
+******************************************************************************	
+Page Directive :
+   The page directive is used to provide instructions to the container that pertain to the current JSP page.
+   Following is the basic syntax of page directive:
+   <%@ page attribute="value" %>
+   
+   You can write XML equivalent of the above syntax as follows:
+   <jsp:directive.page attribute="value" />
+   
+1) buffer Attribute : The buffer attribute specifies buffering characteristics for the server output respon-
+   se object.   
+   <%@ page buffer="none" %>
+   <%@ page buffer="8kb" %> // write output to a buffer of size not less than 8 kilobytes:
+   
+2) autoFlush Attribute : The autoFlush attribute specifies whether buffered output should be flushed automat-
+   ically when the buffer is filled, or whether an exception should be raised to indicate buffer overflow.
+   <%@ page autoFlush="false" %>   
+   <%@ page autoFlush="true" %> // This directive causes the servlet to flush the output buffer when full
+   <%@ page buffer="16kb" autoflush="true" %> // Usually, the buffer and autoFlush attributes are coded on a single page directive 
+   
+3) contentType Attribute : The contentType attribute sets the character encoding for the JSP page and for the
+   generated response page.  
+   <%@ page contentType="text/xml" %>
+   <%@ page contentType="text/html" %>
+   <%@ page contentType="application/msword" %> // the content type as a Microsoft Word document
+    
+4) errorPage Attribute : The errorPage attribute tells the JSP engine which page to display if there is an 
+   error while the current page runs.   	
+   <%@ page errorPage="MyErrorPage.jsp" %>
+   
+5) isErrorPage Attribute : The isErrorPage attribute indicates that the current JSP can be used as the error
+   page for another JSP  
+   <%@ page isErrorPage="true" %>
+   
+6) extends Attribute : The extends attribute specifies a superclass that the generated servlet must extend.
+   <%@ page extends="somePackage.SomeClass" %>
+   
+7) import Attribute : The import attribute serves the same function as, and behaves like, the Java import statement
+   <%@ page import="java.sql.*" %>
+   <%@ page import="java.sql.*,java.util.*"  %>
+   
+8) info Attribute : The info attribute lets you provide a description of the JSP.
+   <%@ page info="This JSP Page Written By ZARA"  %>
+   
+9) isThreadSafe Attribute : The isThreadSafe option marks a page as being thread-safe.
+   <%@ page isThreadSafe="false"  %>
+   
+10)session Attribute : The session attribute indicates whether or not the JSP page uses HTTP sessions.
+   <%@ page session="true" %>
+ 
+11)isELIgnored Attribute : The isELIgnored option gives you the ability to disable the evaluation of Expression Language (EL)
+   <%@ page isELIgnored="false" %>
+
+**********************************************************************   
+Scriptlet:
+A scriptlet can contain any number of JAVA language statements, variable or method declarations, or express-
+ions that are valid in the page scripting language.   
+<% code fragment %> and in xml <jsp:scriptlet> code fragment </jsp:scriptlet>
+
+**********************************************************************
+expression:
+A JSP expression element contains a scripting language expression that is evaluated, converted to a String, 
+and inserted where the expression appears in the JSP file.
+<%= expression %>
+<body>
+   <%= 2+4*5 %>
+   <%
+	  int a=10;
+	  int b=20;
+	  int c=30;
+   %>
+   <%= a+b+c %>
+</body>
+
+***********************************************************************
+
+JSP Declaration Tag : 
+   The JSP declaration tag is used to declare fields and methods.The code written inside the jsp declaration
+   tag is placed outside the service() method of auto generated servlet.
+   So it doesn't get memory at each request.    
+   <%!  field or method declaration %>
+   
+   Example of JSP declaration tag that declares field and method
+   <html>  
+	  <body>  
+	    <%! int data=50; %>  
+	    <%= "Value of the variable is:"+data %>  
+	    
+	    <%! int cube(int n){  
+		   return n*n*n*;  
+		  }  
+		%>  
+		<%= "Cube of 3 is:"+cube(3) %> 
+	  </body>  
+   </html> 
+   
+   
+***********************************************************************
+Difference between JSP Scriptlet tag and Declaration tag
+Jsp Scriptlet Tag	                                          Jsp Declaration Tag
+ The jsp scriptlet tag can only declare           	The jsp declaration tag can declare variables as well 
+ variables not methods.                             as methods.
+ The declaration of scriptlet tag is placed 	    The declaration of jsp declaration tag is placed outside
+ inside the _jspService() method.                   the _jspService() method.
+ 
+***********************************************************************
+Jsp Experssion Langauge : 
+  JSP Expression Language (EL) makes it possible to easily access application data stored in JavaBeans 
+  components.
+  syntax : ${expr}
+  
+  <jsp:setProperty name="box" property="perimeter" value="100"/>
+  <jsp:setProperty name="box" property="perimeter" value="${2*box.width+2*box.height}"/> // EL Language
+  
+  <jsp:text>
+	Box Perimeter is: ${2*box.width + 2*box.height}
+  </jsp:text>
+  
+How to disable EL in jsp : 
+  <%@ page isELIgnored ="true|false" %>  
+
+Basic Operators in EL: 
+   JSP Expression Language (EL) supports most of the arithmetic and logical operators supported by Java
+   
+	.	  Access a bean property or Map entry
+	[]	  Access an array or List element
+	( )	  Group a subexpression to change the evaluation order
+	+	  Addition
+	-	  Subtraction or negation of a value
+	*	  Multiplication
+	/     or div	Division
+	%     or mod	Modulo (remainder)
+	==    or eq	Test for equality
+	!=    or ne	Test for inequality
+	<     or lt	Test for less than
+	>     or gt	Test for greater than
+	<=    or le	Test for less than or equal
+	>=    or ge	Test for greater than or equal
+	&&    or and	Test for logical AND
+	||    or or	Test for logical OR
+	!     or not	Unary Boolean complement
+	empty Test for empty variable values   
+ 
+Functions in JSP EL : JSP EL allows you to use functions in expressions as well. These functions must be 
+    defined in custom tag libraries. 
+    
+    ${ns:func(param1, param2, ...)}
+    ${fn:length("Get my length")}
+    
+    
+EL Implicit Object :
+pageScope	        Scoped variables from page scope
+requestScope	    Scoped variables from request scope
+sessionScope	    Scoped variables from session scope
+applicationScope	Scoped variables from application scope
+param	            Request parameters as strings
+paramValues	        Request parameters as collections of strings
+header	            HTTP request headers as strings
+headerValues	    HTTP request headers as collections of strings
+initParam	        Context-initialization parameters
+cookie	            Cookie values
+pageContext	        The JSP PageContext object for the current page    
+
+${pageContext.request.queryString}
+
+For example, to access a parameter named order, use the expression ${param.order} or ${param["order"]}.
+<p>${param["username"]}</p>
+
+For example, to access a header named user-agent, use the expression ${header.user-agent} or ${header["user-agent"]}.
+<p>${header["user-agent"]}</p>
+
+etc
+***********************************************************************
+
+JSP Actions : JSP actions use constructs in XML syntax to control the behavior of the servlet engine. You can
+    dynamically insert a file, reuse JavaBeans components, forward the user to another page, or generate HTML
+    for the Java plugin.     
+    <jsp:action_name attribute="value" />
+ 
+1. <jsp:include> Action : This action lets you insert files into the page being generated.
+   <jsp:include page="relative URL" flush="true" />
+
+2. <jsp:useBean> Action : The useBean action is quite versatile. It first searches for an existing object 
+   utilizing the id and scope variables. If an object is not found, it then tries to create the specified 
+   object.     
+   <jsp:useBean id="name" class="package.class" />
+   
+3. <jsp:setProperty> Action : The setProperty action sets the properties of a Bean.
+   <jsp:useBean id="myName" ... />
+   ...
+   <jsp:setProperty name="myName" property="someProperty" .../>
+ 
+4. <jsp:getProperty> Action : The getProperty action is used to retrieve the value of a given property and 
+   converts it to a string, and finally inserts it into the output.   
+   <jsp:useBean id="myName" ... />
+   ...
+   <jsp:getProperty name="myName" property="someProperty" .../>
+   
+5. <jsp:forward> Action : The forward action terminates the action of the current page and forwards the requ-
+   est to another resource such as a static page, another JSP page, or a Java Servlet.   
+   <jsp:forward page="Relative URL" />
+   
+6. <jsp:plugin> Action : The plugin action is used to insert Java components into a JSP page. It determines 
+   the type of browser and inserts the <object> or <embed> tags as needed.   
+   <jsp:plugin type="applet" codebase="dirname" code="MyApplet.class" width="60" height="80">
+	   <jsp:param name="fontcolor" value="red" />
+	   <jsp:param name="background" value="black" />
+	   <jsp:fallback>
+	      Unable to initialize Java Plugin
+	   </jsp:fallback>
+	</jsp:plugin>
+	
+7. The <jsp:element> Action & The <jsp:attribute> Action & The <jsp:body> Action : The <jsp:element>, 
+   lt;jsp:attribute> and <jsp:body> actions are used to define XML elements dynamically. The word dynamically
+   is important, because it means that the XML elements can be generated at request time rather than stati-
+   cally at compile time.   
+   
+   <%@page language="java" contentType="text/html"%>
+	<html xmlns="http://www.w3c.org/1999/xhtml" xmlns:jsp="http://java.sun.com/JSP/Page">
+	
+	<head><title>Generate XML Element</title></head>
+	<body>
+		<jsp:element name="xmlElement">
+		<jsp:attribute name="xmlElementAttr">
+		   Value for the attribute
+		</jsp:attribute>
+		<jsp:body>
+		   Body for XML element
+		</jsp:body>
+		</jsp:element>
+		
+		<xmlElement xmlElementAttr="Value for the attribute">
+		   Body for XML element
+		</xmlElement>
+	</body>
+	</html>               
+   
+8. <jsp:text> Action : The <jsp:text> action can be used to write template text in JSP pages and documents.
+   <jsp:text>Template data</jsp:text>
+   
+   <html>
+		<head>
+			<title>The include Action Example</title>
+		</head>
+		<body>
+		    <jsp:include page="date.jsp" flush="true" />
+			<center>
+				<h2>The include action Example</h2>
+				<jsp:forward page="date.jsp" /> // forward action
+			</center>
+			
+			<jsp:plugin type="applet" codebase="dirname" code="MyApplet.class" width="60" height="80"> // plugin action
+			   <jsp:param name="fontcolor" value="red" />
+			   <jsp:param name="background" value="black" />
+			   <jsp:fallback>
+			      Unable to initialize Java Plugin
+			   </jsp:fallback>
+			</jsp:plugin>
+			
+			<jsp:element name="xmlElement">           // element action
+				<jsp:attribute name="xmlElementAttr"> // attribute action
+				   Value for the attribute
+				</jsp:attribute>
+				<jsp:body>                            // body action
+				   Body for XML element
+				</jsp:body>
+			</jsp:element>
+			
+			<books>
+			   <book>
+			      <jsp:text>                          // text action
+			         Welcome to JSP Programming
+			      </jsp:text>
+			   </book>
+			</books>
+			
+			<jsp:useBean id="test" class="action.TestBean" /> // usebean action
+ 			<jsp:setProperty name="test" property="message" value="Hello JSP..." /> // setProperty action
+			<jsp:getProperty name="test" property="message" /> // getProperty action
+		</body>
+	</html>
+   
+***************************************************************************
+Session Management in jsp :
+1. Cookies: A webserver can assign a unique session ID as a cookie to each web client and for subsequent 
+   requests from the client they can be recognized using the received cookie.   
+   
+2. Hidden Form Fields :
+   A web server can send a hidden HTML form field along with a unique session ID  
+   <input type="hidden" name="sessionid" value="12345">
+
+3. URL Rewriting: 
+   You can append some extra data on the end of each URL that identifies the session, and the server can 
+   associate that session identifier with data it has stored about that session. 
+   http://tutorialspoint.com/file.htm;sessionid=12345
+   
+4. Session :
+   The JSP engine exposes the HttpSession object to the JSP author through the implicit session object. 
+   Since session object is already provided to the JSP programmer, the programmer can immediately begin 
+   storing and retrieving data from the object without any initialization or getSession().
+   <%@ page session="false" %>    
+   
+   
+    
+     

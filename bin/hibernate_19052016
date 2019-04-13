@@ -1,0 +1,183 @@
+Default fetch type for one-to-one, many-to-one and one-to-many in Hibernate
+    it depend on what you are using JPA or Hibernate
+    From the JPA 2.0 spec, the defaults are like so:
+	OneToMany: LAZY
+	ManyToOne: EAGER
+	ManyToMany: LAZY
+	OneToOne: EAGER
+	
+	And in hibernate, all is Lazy
+
+@NotFound : There might be a case where data not found and hibernate throws an exception , to ignore that exception use @notfound.
+
+Persistence Contexts : (https://docs.jboss.org/hibernate/orm/4.0/devguide/en-US/html/ch03.html)
+    Both the org.hibernate.Session API and javax.persistence.EntityManager API represent a context for dealing with persistent data. 
+    This concept is called a persistence context. Persistent data has a state in relation to both a persistence context and the 
+    underlying database. Entity states are :
+    1. transient , 2. persistent , 3. detached , 4. removed
+    
+    In Hibernate native APIs, the persistence context is defined as the org.hibernate.Session.
+    In JPA, the persistence context is defined by javax.persistence.EntityManager.
+    
+    Once you've created a new entity instance(using the standard new operator) it is in new state.You can make it persistent by:
+	DomesticCat fritz = new DomesticCat();
+	session.save(fritz);
+	entityManager.persist(fritz);
+	
+	Deleting entities:
+	It is important to note that Hibernate itself can handle deleting detached state. JPA, however, disallows it.
+	session.delete( anAuthor );
+	entityManager.remove( anAuthor );
+
+	Refresh entity state :
+	session.refresh( cat );
+	entityManager.refresh( cat );
+	
+	Reattaching detached data :
+	session.update( someDetachedCat );
+	session.saveOrUpdate( someDetachedCat );
+	
+	Merging detached data :
+	Merging is the process of taking an incoming entity instance that is in detached state and copying its data over onto a new instance that is in 
+	managed state.
+	Cat theManagedInstance = session.merge( someDetachedCat );
+	Cat theManagedInstance = entityManager.merge( someDetachedCat );
+	
+	Checking persistent state : 
+	An application can verify the state of entities and collections in relation to the persistence context.
+	assert session.contains( cat );
+	assert entityManager.contains( cat );
+	
+	
+
+Cascade : cascade means when we define relationship btn entity than we need to define how differernt operation will occur on different entity and this is done by
+          cascading. For example.
+          We have one user entity and vehicle entity, in user entity we have define vehicle relationship with one to many.
+          without using cascade type when we try to save user object we also have to explicitly save vehicle object though we have added vehicle object in user.
+          if we dont explicitly save vehicle , then we get exception : transient object should be save before flusing.
+          vehicle v1 = new Vehicle();
+          v1.setName("Honda");
+          vehicle v2 = new Vehicle();
+          v2.setName("Hero");
+          user.setVehicle(v1);
+          user.setVehicle(v2);
+          
+          session.save(user)
+          session.save(v1)
+          session.save(v1)   
+          
+          after using cascade=cascadeType.All or any other type , then
+          session.save(user); here hibernate will save its child table also.
+
+
+one to one - Defining one to one relationship i.e One person has one passport , One person has one driver's licence , One Person has a unique
+             address.  
+             Every Record in the student table , I want One record in the student address table . By Default fetchType of one to one is EAGER.
+what is one to one mapping ?
+	Any two table in database say A and B are said to have a one to one relationship within them, If each row in table A is linked to each row in table B.
+	And Number of rows in table A is equal to number of rows in table B	
+    @Entity                                                           @Entity  
+    @Table(name = "student")                                          @Table(name = "student_address")  
+    public class Student {                                            public class StudentAddress {  
+  
+    @Id                                                               @Id  
+    @GeneratedValue  												  @Column(name = "student_id")@GeneratedValue(generator = "gen")    
+    @Column(name = "student_id")  									  @GenericGenerator(name = "gen", strategy = "foreign", parameters = @Parameter(name = "property", value = "student"))  	 			
+    private long id;  												  private long id;  
+  
+    @Column(name = "first_name")  								      @Column(name = "address")		 
+    private String firstName;  										  private String address;  
+    
+    @OneToOne(mappedBy = "student", cascade = CascadeType.ALL)        @OneToOne
+ 	private StudentAddress studentAddress;                            @PrimaryKeyJoinColumn  
+	}         														  private Student student; 
+	         														  }
+one to many : One to many means , one college cna have many student. College to student has a one to many relationship and student to college has vice-versa i.e many to
+    one relation ship. College table has P.K , In order to make one to many relationship btn college and student , the college id has to be F.K in student.
+    if student entity of onetomany annotation is defined in college entity that means one college to many students and if college entity of manytoone is defined in 
+    student entity then many student in one college .
+
+many to many : many to many means , A author can write many books and A books can be written by many authors. Therefore author to book is many to many relationship
+    In order to make many to many relationship btn author and a book , there has to be a third table which does the mapping. There has to F.k  of author and book in 
+    the third table in to work many to many relationship. 	         														  
+
+State of an objects : Transient , Persistent and detached
+Transient: when the object is created and has no primary key , the state is called Transient state.For ex	         														  
+           Car car = new Car
+Persistent : When the session is opened and you have just save or retrived form database,this state is called as Persistent State .for ex
+		   tx = session.beginTransaction();
+		   session.save(car);
+           car.setName(“Peugeot”);
+           tx.commit();           			  
+detached : When the session was close, the state changes to detached. The object is detached from its session. 
+Now , If I want to save some changes then I have to bring the object in Persistent state , by session.lock() or session.update(). 
+		   transaction = session.beginTransaction();
+		   session.buildLockRequest(LockOptions.NONE).lock(car);
+		   car.setname(newName);
+	       transaction.commit();			
+	       
+Inheritance Mapping in hibernate : 
+1. Table Per Hierarchy 
+2. Table Per Concrete class
+3. Table Per Subclass 
+
+1. Table Per Hierarchy : In table per hierarchy mapping, single table is required to map the whole hierarchy, an extra column 
+         (known as discriminator column) is added to identify the class. But nullable values are stored in the table .
+	@Entity  																				@Entity  
+	@Table(name = "employee101")  															@DiscriminatorValue("regularemployee") 
+	@Inheritance(strategy=InheritanceType.SINGLE_TABLE)  									public class Regular_Employee extends Employee{  
+	@DiscriminatorColumn(name="type",discriminatorType=DiscriminatorType.STRING)  
+	@DiscriminatorValue(value="employee")  													@Column(name="salary")  
+  																							private float salary;  
+	public class Employee {  																
+	@Id  																					@Column(name="bonus")
+	@GeneratedValue(strategy=GenerationType.AUTO)  											private int bonus; 
+      
+	@Column(name = "id")  																	}  
+	private int id;  
+  
+	@Column(name = "name")  
+	private String name; 
+	}     
+	
+2.  Table Per Concrete class : In case of table per concrete class, tables are created as per class. But duplicate column is added in subclass
+    tables.	     
+	@Entity  																				@Entity  
+	@Table(name = "employee102")  															@DiscriminatorValue("regularemployee102") 
+	@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)) 								@AttributeOverrides({  
+	public class Regular_Employee extends Employee{											@AttributeOverride(name="id", column=@Column(name="id")),  
+	@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS) 									@AttributeOverride(name="name", column=@Column(name="name"))  
+																							})  	
+	 public class Employee { 									  							public class Regular_Employee extends Employee{ 
+	 @Id  
+	 @GeneratedValue(strategy=GenerationType.AUTO)									 		@Column(name="salary")  
+  																							private float salary;  
+	 @Column(name = "id") 																
+	 private int id;																		@Column(name="bonus")
+	  																						private int bonus; 
+     @Column(name = "name") 
+	 private String name;																	}  
+	 }  
+  
+3. Table Per Subclass : In this strategy, tables are created as per class but related by foreign key. So there are no duplicate columns.
+	@Entity  																				@Entity  
+	@Table(name = "employee103")  															@DiscriminatorValue("regularemployee103") 
+	@Inheritance(strategy=InheritanceType.JOINED) 											@PrimaryKeyJoinColumn(name="ID")  
+	public class Employee{																		  
+	@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS) 								public class Regular_Employee extends Employee{ 	  
+																							@Column(name="salary") 	
+	 public class Employee { 									  							private float salary;
+	 @Id  
+	 @GeneratedValue(strategy=GenerationType.AUTO)									 		@Column(name="bonus") 
+  																							private int bonus;  
+	 @Column(name = "id") 																    } 
+	 private int id;																		
+	  																						 
+     @Column(name = "name") 
+	 private String name;																	 
+	 }  	  
+	 
+
+
+
+	       

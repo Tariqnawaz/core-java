@@ -1,0 +1,45 @@
+Type Casting in java
+
+There are two types of casting,
+1) Primitive Casting.
+2) Derived Casting
+
+1) Primitive Casting.
+Primitive Casting is used to convert data from one primitive data type to another primitive data type.
+
+Consider primitive data types in java which represent the numbers.
+These are data types with no decimal places.
+1) byte     2) short     3) int      4) long
+
+and these are data types with decimal places.
+5) float     6) double
+
+When you put them in the increasing order of their memory size, you get
+byte < short < int < long < float < double.
+
+Please remember this order we will be using this order in below examples. byte is the smallest data type and double is the biggest 
+data type in terms of memory size.
+
+There are two types in primitive casting. 1) Auto Widening   2) Explicit Narrowing
+
+     1) Auto Widening
+When you are converting data from small sized data type to big sized data type, i.e when you are converting data from left-placed data
+type to right-placed data type in the above order, auto widening will be used. For example, when you are converting byte to short or 
+short to int, auto widening will be used.
+
+     2) Explicit Narrowing
+When you are converting data from big sized data type to small sized data type, i.e when you are converting data from right-placed data 
+type to left-placed data type in the above order, explicit narrowing will be used. For example, when you are converting double to float 
+or float to int, explicit narrowing will be used.
+
+2) Derived Casting
+Derived casting is used to change the type of object from one user defined data type to another user defined data type in the class hierarchy.
+There are two types in derived casting. 1) Auto-up Casting  2) Explicit Down Casting.
+
+     1) Auto-Up Casting
+Auto-Up Casting is used to change the type of object from sub class type to super class type. i.e an object of sub class type is automatically
+converted to an object of super class type. 
+
+     2) Explicit Down Casting
+Explicit down Casting is used to change the type of object from super class type to sub class type. i.e you have to explicitly convert an object
+of super class type to an object of sub class type.

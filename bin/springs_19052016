@@ -1,0 +1,157 @@
+Spring : 
+
+Spring Transaction Management :
+The Spring Framework provides a consistent abstraction for transaction management that delivers the following benefits:
+1. Provides a consistent programming model across different transaction APIs such as JTA, JDBC, Hibernate, JPA, and JDO.
+2. Supports declarative transaction management.
+3. Provides a simpler API for programmatic transaction management than a number of complex transaction APIs such as JTA.
+4. Integrates very well with Spring's various data access abstractions.
+
+Now all the below topic will speak about Spring Framework's transaction support
+
+J2EE developers have had two choices for transaction management: global or local transactions.
+global : Global transactions are managed by the application server, using the Java Transaction API (JTA).
+local  : Local transactions are resource-specific: the most common example would be a transaction associated with a JDBC connection.
+
+Key abstractions :
+   The key to the Spring transaction abstraction is the notion of a transaction strategy. A transaction strategy is defined by the 
+   org.springframework.transaction.PlatformTransactionManager interface, shown below:	
+		
+		public interface PlatformTransactionManager {
+		  TransactionStatus getTransaction(TransactionDefinition definition)throws TransactionException;
+		  void commit(TransactionStatus status) throws TransactionException;
+		  void rollback(TransactionStatus status) throws TransactionException;
+		}
+	
+1.  getTransaction(..) method returns a TransactionStatus object, depending on a TransactionDefinition parameter. The returned Transa-
+	ctionStatus might represent a new or existing transaction.
+2.  TransactionDefinition interface specifies: Isolation , Propagation , Timeout , Read-only status	
+3.  The TransactionStatus interface provides a simple way for transactional code to control transaction execution and query transaction
+    status.	
+			public interface TransactionStatus {
+			  boolean isNewTransaction();
+			  void setRollbackOnly();
+			  boolean isRollbackOnly();
+			}
+			
+Note- whether you have option for declarative or programmatic transaction management in Spring, defining the correct implementation 
+   is absolutely essential.			
+			
+	<bean id="dataSource" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean" destroy-method="close">
+	  <property name="driverClassName" value="${jdbc.driverClassName}" />
+	  <property name="url" value="${jdbc.url}" />
+	  <property name="username" value="${jdbc.username}" />
+	  <property name="password" value="${jdbc.password}" />
+	</bean>
+	
+	<bean id="hibernateTransactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+	  <property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+Declarative transaction management :
+	The Spring Framework's declarative transaction management is made possible with Spring AOP, although, as the transactional aspects code comes 
+	with the Spring Framework distribution and may be used in a boilerplate fashion, AOP concepts do not generally have to be understood to make 
+	effective use of this code.	
+	
+	<tx:annotation-driven transaction-manager="hibernateTransactionManager"/> add this line in configuration file and use
+	@Transactional annotation to get transaction support and transaction scope. Till here it is fine, we required this to configure transa-
+	ction management in spring, but have you understood how it works. Below line will explain about this.
+	
+1.  The most important concepts to grasp with regard to the Spring Framework's declarative transaction support are that this support is enab-
+	led via AOP proxies, and that the transactional advice is driven by metadata (currently XML- or annotation-based).	
+2.  By using @Transactional, many important aspects such as transaction propagation are handled automatically.In this case if another tran-
+	sactional method is called by businessLogic(), that method will have the option of joining the ongoing transaction.	
+	
+3.  What does @Transactional mean?
+    One of the key points about @Transactional is that there are two separate concepts to consider, each with it's own scope and life cycle:
+
+	the persistence context
+	the database transaction	
+	
+	The transactional annotation itself defines the scope of a single database transaction. The database transaction happens inside the 
+	scope of a persistence context.
+	
+	Persistence Contexts : (https://docs.jboss.org/hibernate/orm/4.0/devguide/en-US/html/ch03.html)
+    Both the org.hibernate.Session API and javax.persistence.EntityManager API represent a context for dealing with persistent data. 
+    This concept is called a persistence context. Persistent data has a state in relation to both a persistence context and the 
+    underlying database. Entity states are :
+    1. transient , 2. persistent , 3. detached , 4. removed
+    
+    In Hibernate native APIs, the persistence context is defined as the org.hibernate.Session.
+    In JPA, the persistence context is defined by javax.persistence.EntityManager.
+    
+    Once you've created a new entity instance(using the standard new operator) it is in new state.You can make it persistent by:
+	DomesticCat fritz = new DomesticCat();
+	session.save(fritz);
+	entityManager.persist(fritz);
+	
+	Deleting entities:
+	It is important to note that Hibernate itself can handle deleting detached state. JPA, however, disallows it.
+	session.delete( anAuthor );
+	entityManager.remove( anAuthor );
+
+	Refresh entity state :
+	session.refresh( cat );
+	entityManager.refresh( cat );
+	
+	Reattaching detached data :
+	session.update( someDetachedCat );
+	session.saveOrUpdate( someDetachedCat );
+	
+	Merging detached data :
+	Merging is the process of taking an incoming entity instance that is in detached state and copying its data over onto a new instance that is in 
+	managed state.
+	Cat theManagedInstance = session.merge( someDetachedCat );
+	Cat theManagedInstance = entityManager.merge( someDetachedCat );
+	
+	Checking persistent state : 
+	An application can verify the state of entities and collections in relation to the persistence context.
+	assert session.contains( cat );
+	assert entityManager.contains( cat );
+	
+4. How does @Transactional work then?
+    The persistence context proxy that implements EntityManager is not the only component needed for making declarative transaction manage-
+    ment work. Actually three separate components are needed:
+    The EntityManager Proxy itself
+	The Transactional Aspect
+	The Transaction Manager
+    	
+  Transactional Aspect :
+	The Transactional Aspect is an 'around' aspect that gets called both before and after the annotated business method. The concrete class
+	for implementing the aspect is TransactionInterceptor.
+	
+  Transaction Manager : 	
+	The transaction manager needs to provide an answer to two questions:
+	--should a new Entity Manager be created?
+	--should a new database transaction be started?
+
+  EntityManager proxy : 	
+	The EntityManager proxy (that we have introduced before) is the last piece of the puzzle. When the business method calls for example 
+	entityManager.persist(), this call is not invoking the entity manager directly.
+	Instead the business method calls the proxy, which retrieves the current entity manager from the thread, where the Transaction Manager
+    put it.
+    
+Propagation in Spring Transaction Management :
+	Required , Required_new , Nested
+	
+	Required : When the propagation setting is PROPAGATION_REQUIRED, a logical transaction scope is created for each method that it gets applied to.
+	Each such logical transaction scope can individually decide on rollback-only status, with an outer transaction scope being logically independent
+	from the inner transaction scope. So a rollback-only marker set in the inner transaction scope does affect the outer transactions chance to act-
+	ually commit (as you would expect it to).
+    
+    Required_new : PROPAGATION_REQUIRES_NEW, in contrast, uses a completely independent transaction for each affected transaction scope. In that 
+    case, the underlying physical transactions will be different and hence can commit or rollback independently, with an outer transaction not aff-
+    ected by an inner transaction's rollback status.
+		
+	Nested : 	
+	Execute within a nested transaction if a current transaction exists, behave like PROPAGATION_REQUIRED else.	
+	
+	MANDATORY
+	Support a current transaction, throw an exception if none exists.	
+	
+	NEVER : Execute non-transactionally, throw an exception if a transaction exists.
+	
+	NOT_SUPPORTED : Execute non-transactionally, suspend the current transaction if one exists.
+	
+	SUPPORTS: Support a current transaction, execute non-transactionally if none exists.
+		

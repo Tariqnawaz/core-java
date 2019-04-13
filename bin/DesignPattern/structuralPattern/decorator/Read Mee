@@ -1,0 +1,38 @@
+Read Mee
+Decorator
+
+Advantage of Decorator Pattern
+It provides greater flexibility than static inheritance.
+It enhances the extensibility of the object, because changes are made by coding new classes.
+It simplifies the coding by allowing you to develop a series of functionality from targeted classes instead of coding all of the behavior into the object.
+
+Usage of Decorator Pattern
+It is used:
+When you want to transparently and dynamically add responsibilities to objects without affecting other objects.
+When you want to add responsibilities to an object that you may want to change in future.
+Extending functionality by sub-classing is no longer practical.
+
+2. Example (car)
+Decorator Design Pattern
+
+We use inheritance or composition to extend the behavior of an object but this is done at compile time and its applicable to all the 
+instances of the class. We can’t add any new functionality of remove any existing behavior at runtime – this is when Decorator pattern
+ comes into picture.
+
+Suppose we want to implement different kinds of cars – we can create interface Car to define the assemble method and then we can have
+ a Basic car, further more we can extend it to Sports car and Luxury Car. The implementation hierarchy will look like below image.
+ 
+But if we want to get a car at runtime that has both the features of sports car and luxury car, then the implementation gets complex 
+and if further more we want to specify which features should be added first, it gets even more complex. Now imagine if we have ten di-
+fferent kind of cars, the implementation logic using inheritance and composition will be impossible to manage. To solve this kind of 
+programming situation, we apply decorator pattern in java. 
+
+3. Example (shape)
+We are demonstrating the use of decorator pattern via following example in which we will decorate a shape with some color without alt-
+er shape class.
+
+Implementation
+We're going to create a Shape interface and concrete classes implementing the Shape interface. We will then create an abstract decor-
+ator class ShapeDecorator implementing the Shape interface and having Shape object as its instance variable.
+RedShapeDecorator is concrete class implementing ShapeDecorator.
+DecoratorPatternDemo, our demo class will use RedShapeDecorator to decorate Shape objects.

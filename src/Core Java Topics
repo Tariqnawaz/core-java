@@ -1,0 +1,834 @@
+Core Java Topics
+  
+ Hashing Related Data structure , hashing is one of the data structure which is going to save our data for fast reterval. The fastest data structure for retreval of
+ data is hashing data structure . Hashing data structure is a block which is 2 dimentional array , each segment or each block is bucket .
+ Hashing uses this principal while saving data - 
+ 1. Duplicate value / data are not allowed.
+ 2. 2 object of same type and of same data than their hashcode must be same.
+   Storing the data is done  by JVM
+ 3.Jvm will consider the object corresponding to hashcode.
+ 
+Collection uses Hashing technique to store the element - HashSet , HasHmap , HashTable
+ 
+HasCode And equal :  
+  Example in HashCodeNEqualMethod.java
+
+/****************************************************Oops Concept*********************************************************************/
+Oops Concept
+Object-Oriented Programming is a methodology or paradigm to design a program using classes and objects.
+The pillar of oops concept is – Object , Class , Inheritance , Polymorphism , Encapsulation , abstraction.
+
+Object – 
+  An object is a real world entity which can be any  thing  i.e  which contains state and behavior (attribute and method ) . 
+  For ex chair , pen.
+Classes –   
+  A class is a blue print or a template which cantains attribute and method.
+Inheritance –   
+The main use of inheritance is code re-usability , Its is used to call a quality of parent class and can be used in child class.
+  When one object acquires all the properties and behaviours of parent object i.e. known as inheritance.
+Polymorphism -      
+  One task can be performed  in different ways (Static  and dynamic. For ex shape 
+  Static Polymorphism (compile time polymorphism / method over loading ).
+  Dynamic Polymorphism (Run time polymorphism / method over riding ).
+  Overloaded methods may have same return types or different return types. It does not effect method overloading.
+  Name of the overrided method must be same as in the super class. You can’t change name of the method in subclass.
+Abstraction –   
+  Abstraction means just showing functionality and hiding internal details .For ex phone call, we don’t know the 
+  internal processing .   
+Encapsulation –      
+  Its means binding all code into a single unit is  know as Encapsulation . For ex capsule , it is wrapped or bind with 
+  different medicines . 
+  
+  Constructor:
+  A constructor is a primary method which is used to create a object of class.It doesn't return any thing and it should have same name as class.
+  If we dont define a constructor , JVM will provide a defalt one which access specifiers will be public and with no argument.
+  Only public, protected and private keywords are allowed before a constructor name.First statement in a constructor must be either 
+  super() or this(). We cannot create method inside constructor but we can call method inside a constructor.
+  
+1. A constructor is a primary method which is used to create a object of Class.It doesn't return any thing and it should have same name as class.
+2. Every class should have at least one constructor. If you don’t write constructor for your class, compiler will give default constructor. 
+   Default constructor is always public and it has no arguments (No-Arg Constructor).
+3. Constructor can be declared as private. If you declare constructor as private, you can’t use it outside that class.
+4. One class can have more than one constructors. It is called Constructor Overloading. 
+5. Duplicate Constructors not allowed. If you keep duplicate constructors, you will get compile time error.
+6. Multiple arguments of the constructors can’t have same name.If the two arguments have the same name,you will get compile time error.   
+7. Only public, protected and private keywords are allowed before a constructor name. If you keep any other keyword before a constructor name, 
+   it gives compile time error.
+8. First statement in a constructor must be either super() or this(). If you put any other statements you will get compile time error. 
+                       refer example of all the above points in (O001_ConstructorsExample.java)
+                       
+Inheritance:
+   A child class inherits all the qualities i.e varible and method of parent class. If a parent class has a argument constructor than the child 
+   class forces to write that contructor. 	
+
+1. Class A has two members – int i and methodOne(). Class B also has two members – int j and methodTwo().Class B is extending Class A. Therefore, 
+   members of class A are inherited to Class B. Now, Class B will have two additional members inherited from class A along with its members.  
+2. Constructors, SIB – Static Initialization Block and IIB – Instance Initialization Block of super class will not be inheriting to its sub class. 
+   But they are executed while creating an object to sub class.
+3. If a class A has a constructor with argument then the Class B which extends class A force you to write constructor in Class B or explicitly define
+   a constructor in class A without argument.
+4. By default, every class is a sub class of java.lang.Object class. So, every class in java has properties inherited from Object class.
+5. We cannot can not call sub class constructor in parent class.
+6. Multiple inheritance is not supported.
+                       refer example of all the above points in (O001_InheritanceExample.java)
+7. Private member can not be inherited , Default member can be inherited within package , protected member can be inherited to any subclass ,
+   public member can be inherited to all sub classes.          
+                       refer example of points 7 in (Inheritance Folder inside package1 and package2).
+8. Inner Inheritance : An non-static inner class can extend another non-static inner class within the same class.
+9. A non-static inner class and static inner class can be extended in another outer class.
+10.When an outer class is extended by another outer class, Member inner classes will not be inherited to sub class.To use inner class properties inside 
+   the sub class of outer class, sub class must also have an inner class and that inner class must extend inner class of the outer class.  
+11.Inner class can extend it’s outer class. But, it does not serve any meaning. Because, even the private members of outer class are available inside 
+   the inner class. Even though, When an inner class extends its outer class, only fields and methods are inherited but not inner class itself.  
+                        refer example of points 8,9,10,11 in (O002_InheritanceExample.java).         
+                        
+Access Modifiers:
+1. Private field can be used within class , Private inner class can be used within class , Private constructor can be used within class.
+2. Default field can be inherited within package , Default field can be used within the package , Default method can be used within the package
+   Default inner class can be used within the package.
+3. Protected field can be used within the package , Protected method can be used within the package , Protected Inner Class can be used within the 
+   package.
+4. public field can be used anywhere , public Inner Class can be used anywhere , public method can be used anywhere .                        
+                       
+Abstraction:
+1). Abstract Class: Access modifier to create abstract class are public and abstract.
+	Abstract class is a class which doesnt provide complete implementation and we cannot create an object. It is a concept class where we keep our 
+	idea in one place and subclass should implements in its own way. Abstract Class can be a combination of concrete and abstract methods.
+	Abstract class can have a constructor if not then complier produces default constructor , method cannot be private only public and protected , 
+    we can define variable, even private variable also . Abstract class can implements interface and extends abstract class or normal class.
+   
+1. Abstraction is used to separate ideas from their implementation. Abstraction in java is used to define only ideas in one class so that the idea can 
+   be implemented by its sub classes according to their requirements.
+2. The method which define abstract method , class also should define abstract.
+3. It is not compulsory that abstract class must have abstract methods. It may or may not have abstract methods. But the class which has at
+   least one abstract method must be declared as abstract.
+4. You can’t create objects to abstract class even though it does not contain any abstract methods.
+5. Abstract Class can be a combination of concrete and abstract methods.
+6. Any class extending an abstract class must implement all abstract methods. If it does not implement, it must be declared as abstract.
+7. Inside abstract class, we can keep any number of constructors. If you are not keeping any constructors, then compiler will keep default constructor.
+8. Abstract methods can not be private. Because, abstract methods must be implemented somehow in the sub classes. If you declare them as private, then
+   you can’t use them outside the class.
+9. Abstract class can have a constructor if not then complier produces default constructor , method cannot be private only public and protected , 
+   we can define variable, even private variable also    
+
+2). Interface :
+	Interface is 100 percent abstract class.Interfaces are declared with keyword ‘interface‘ and interfaces are implemented by the class using 
+	‘implements‘ keyword. Class level access modifier of interface is public and abstract.By default, Interface itself is not public but by default interface 
+	 itself is abstract  , interfaces of two type field and method. By default field is public, static and final (you cannot use other than this in interface for 
+	field , You can’t change the value of a field once they are initialized.Because they are static and final. Therefore, sometimes fields are called as Constants.)  
+	All methods of an interface are public and abstract.By default, every member of an interface is public and while implementing you should not 
+	reduce this visibility. Interface cannot extends abstract or normal class but extends interface.
+	while creating an interface it can be only public and abstract.
+	
+1. Interface is 100 percent abstract class.
+2. Interfaces are declared with keyword ‘interface‘ and interfaces are implemented by the class using ‘implements‘ keyword.
+3. Interfaces should contain only abstract methods. Interfaces should not contain a single concrete method.
+4. Interface can have two types of members.  1) Fields     2) Abstract Methods.
+5. By default, Every field of an interface is public, static and final (we will discuss about final keyword Later). 
+   You can’t use any other modifiers other than these three for a field of an interface.
+6. You can’t change the value of a field once they are initialized. Because they are static and final. Therefore, sometimes fields are 
+   called as Constants. (We will discuss this feature in detail while covering ‘final’ keyword)
+7. By default, All methods of an interface are public and abstract.
+8. By default, every member of an interface is public and while implementing you should not reduce this visibility.  
+9. By default, Interface itself is not public but by default interface itself is abstract 
+10.Static Initialization Block and IIB – Instance Initialization Block are not allowed in interfaces.
+    
+keywords:
+Super
+1. Super is used to call super class constructor
+This
+2. this is used to call current class constructor.
+final
+3. Final class cannot be inherited.
+4. final method cannot be overriding.(final method can be overloaded and that overloaded method can be overridden in the sub class.)
+5. final variable cannot be changed. (final variable can not be re-initialized but final variable can be used to initialize other variables.)
+6. Any class or any method can be either abstract or final but not both. abstract and final are totally opposite. Because,
+   abstract class or abstract method must be implemented or modified in the sub classes but final does not allow this. This creates an ambiguity.
+7. final method can be overloaded and that overloaded method can be overridden in the sub class.
+8. final variable can not be re-initialized but final variable can be used to initialize other variables.
+9. When an array reference variable is declared as final, only variable itself is final but not the array elements.
+10.When a reference variable is declared as final, you can’t re-assign a new object to it once it is referring to an object. But, you can change the 
+   state of an object to which final reference variable is referring.
+11.Static variables, non-static variables and local variables all can be final. once the final variables are initialized, even you can’t
+   re-assign the same value.    
+12.If the global variables are not initialized explicitly, they get default value at the time of object creation. But final global variables don’t get 
+   default value and they must be explicitly initialized at the time of object creation. Uninitialized final field is called Blank Final Field.     
+13.final non-static global variable must be initialized at the time of declaration or in all constructors or in any one of IIBs – Instance 
+   Initialization Blocks.
+14.final static global variable must be initialized at the time of declaration or in any one of SIBs – Static Initialization Blocks. 
+    (final static global variable can’t be initialized in constructors)
+    
+NestedClasses:
+There are 2 types of Nested Classes.
+Static Nested Classes
+Non-Static Nested Classes or Inner Classes
+
+Static Nested Classes
+   If nested class is declared as static, then that nested class is called as static nested class.Static nested classes can contain both static and 
+   non-static members.It can contain only static member outer class not non-static member .	static nested classes can be abstract and can be final.
+   Constructors and methods of nested classes can be overloaded.
+	
+1. If nested class is declared as static, then that nested class is called as static nested class.
+2. Static nested classes can contain both static and non-static members.
+3. We can access only static members of outer class inside a static nested class. We can’t access non-static members of outer class 
+   inside a static nested class.
+4. We have seen that static methods can’t be abstract but static nested classes can be abstract.
+5. Static nested class can be final.
+6. Constructors and methods of nested classes can be overloaded.
+7. Static Nested Classes can be chained. i.e Nested class may contain another nested class and that nested class may contain another nested class and 
+   so on.       
+8. 
+
+Non-Static Nested Classes
+They are 3 types of Inner Classes in java.
+  Member Inner Classes
+  Local Inner Classes
+  Anonymous Inner classes   
+
+Member Inner Classes
+	A class inside a class but outside the method is called Member Inner classes.It contain only non-static members,Static members are not allowed.
+	interesting point, you can declare static field if the field is final and such field must be initialized at the time of declaration only. this 
+	rule is only for field not for method. It can access static and non-static members of outer class . Member inner classes can be abstract or can be 
+	final but not both. Both outer class and member class can access all member of each other irrespective of their visibility  
+
+1. Member Inner Classes are non-static nested classes which are declared as non-static members of outer class.
+2. Member inner classes must contain only non-static members. Static members are not allowed inside member inner classes.
+3. But, here is the interesting point. You can declare a static field inside a member inner class if the field is final. 
+   And such field must be initialized at the time of declaration only. Remember, this rule is only for the fields not for the methods.
+4. Member inner class may contain any number of IIB’s but should not contain any SIB’s.
+5. We can access both static and non-static members of outer class inside a member inner class.
+6. All members of outer class are accessible inside member inner class and all members of member inner class are accessible inside the outer class 
+   irrespective of their visibility.
+7. Member inner classes can be abstract or can be final but not both.
+
+Local Inner Classes
+	A class which is declared inside a method is called local inner class . Local inner class cant be static , can contain only non-static member but
+	not static member. It can contain static and final field .Local inner classes can not be declared with access modifiers i.e  private, protected 
+	and public. But they can have private, public, protected and default members in them. Local inner classes can be abstract or can be final but not 
+	both.
+	
+1. Local inner class in java is non-static nested class which is declared inside a method or a block.
+2. Local Inner Classes can’t be static. Because, local inner classes are nothing but local variables and local variables can’t be static.
+3. Local inner classes can’t have static members. Only non-static members are allowed inside local inner classes. But local inner classes can 
+   contain static and final field.
+4. To access members of local inner class, you must create an instance of it.
+5. Local inner classes are local to a method or a block in which they are defined. i.e you can’t use local inner classes outside the method or block in 
+   which they are defined.
+6. Only final local variables of methods or blocks containing local inner class can be used inside local inner class.
+7. Local inner classes can not be declared with access modifiers. i.e Local inner classes can not be private, protected and public. 
+   But they can have private, public, protected and default members in them.
+8. Local inner classes can be abstract or can be final but not both.
+9. 
+
+Anonymous Inner Class:
+1. Anonymous inner class, the name itself suggest that it is a class without a name. Anonymous inner class in java is an inner class or non-static 
+   nested class without a name.
+2. Anonymous inner classes don’t have name. They are nameless.You can create only one object to anonymous inner class. If you want to create another 
+   object, you have to write the whole class again.
+3. 
+
+Inheritance Inner Class :
+1. An inner class can be extended by another class outside of it’s outer class. If you are extending static inner class (Static nested class), then it 
+   is a straight forward implementation. If you are extending non-static inner class, then sub class constructor must explicitly call super class 
+   constructor using an instance of outer class. Because, you can’t access non-static inner class without the instance of outer class.         
+2. When an outer class is extended by it’s sub class, Member inner classes will not be inherited to sub class. To use inner class properties inside the 
+   sub class of outer class, sub class must also have an inner class and that inner class must extend inner class of the outer class.            
+3. Inner class can extend it’s outer class. But, it does not serve any meaning. Because, even the private members of outer class are available inside 
+   the inner class. Even though, When an inner class extends its outer class, only fields and methods are inherited but not inner class itself.   
+   
+
+Wrapper classes:
+1. Wrapper classes are mainly used to wrap the primitive content into an object.
+2. 
+Auto Boxing:
+1. From JDK 1.5 onwards, Auto-Boxing is introduced. According to this feature, you need not to explicitly wrap the primitive content into an object.
+2. 
+Un Boxing:
+1. All wrapper classes have methods to unwrap the object to corresponding primitive data.it shows unboxing i.e unwrapping wrapper object into corresponding 
+   primitive data.
+2. 
+Auto Un Boxing:
+1. From JDK 1.5 onwards, Auto-Unboxing is introduced. According to this feature, you need not to call method of  wrapper class to unbox the wrapper 
+   object. Java implicitly converts wrapper object to corresponding primitive data if you assign wrapper object to primitive type variable.
+2. 
+Constructors Of Wrapper Classes
+Every wrapper class in java has two constructors,
+1.First constructor takes corresponding primitive data as an argument
+2.Second constructor takes string as an argument.     
+Notes :
+1.The string passed to second constructor should be parse-able to number , otherwise you will get run time 
+  NumberFormatException.
+2. Wrapper Class Character has only one constructor which takes char type as an argument. It doesn’t have a 
+3.constructor which takes String as an argument. Because, String can not be converted into Character.
+  Wrapper class Float has three constructors. The third constructor takes double type as an argument.
+   
+
+Enums:
+   Enums in java are mainly used for grouping similar kind of constants as a one unit.Every constant of enum is public, static and final by default.
+   Every enum in java extends java.lang.Enum class. It is an abstract class , every enum extend enum.class . Enum can declared inside a class and 
+   can be accessed directly by calling class name.Enum can have abstract method . Enums can implement interface.
+
+1. Enums in java are mainly used for grouping similar kind of constants as a one unit. constants means static and final. 
+2. Enums are introduced in JDK 1.5 onward. Before that similar kind of constants are grouped by declaring them as static and final in one class. 
+3. Enums in java are declared with enum keyword and constants in enums must be valid java identifier. It is good practice to declare constants with 
+   UPPERCASE letters. Duplicate enum constants are not allowed.
+4. Every constant of enum is public, static and final by default. As every constant is static, they can be accessed directly using enum name.      
+5. Enums can have any number of fields. methods and constructors and Each constant will have their own copy of fields and methods.
+6. If enum has only constants, then semicolon (;) at the end of constant declaration is not mandatory.But, if enum has other members, then semicolon 
+   is mandatory.  
+7. Every enum in java extends java.lang.Enum class. Enum class is an abstract class in java.lang package.As every enum extends Enum class, it should 
+   not extend any other class. Because, Multiple inheritance is not allowed in java. But enums can implement any number of interfaces.
+8. Enums can be declared inside a class. If declared inside a class, they are static by default and can be accessed directly by Class name.
+9. Enum constants can override generalized method defined in the enum body.
+10.Enum can have abstract method declared in it’s body provided each enum constants must implement it.
+11.Enum Constants can have their own fields and method defined in their body, but these fields and methods are visible only within the constant body.
+12.After observing all the above features of enums, we come to know that enums can have constuctors, fields and methods. 
+   Enums can implement interface. Enums extend Enum class. That means they have all features of classes. Therefore they 
+   are special type of classes. Moreover, after compilation, .class files are generated for all enums. Then what enum 
+   constants are?….  You can treat them as static inner classes of enums as they can be referred directly using enum name 
+   and they can hold fields and methods in them.                          
+
+  
+/****************************************************Object*********************************************************************/
+Object 
+
+methods in object class:
+1. equals() , hashCode() , Clone(), toString() ,finalize() , getClass() , notify() , notifyAll() , wait();
+
+equal() consolidated points:
+1. equals method is used to compare the content of two objects. It is a not-static method of java.lang.Object class.
+2. == returns true if two reference variable are pointing to same object , equals() returns true if the content of two object is same.
+
+hashCode() consolidated points:
+1. It returns an integer representation of memory address of the object. It is a not-static method of java.lang.Object class.
+
+clone() consolidated points:
+1. clone() used to create a clone or copy of the given object.Not all the objects in java are clone-able. In order to make an object 
+   clone-able, the class of that object must implement Cloneable interface.
+2. Cloneable interface is a marker interface. It does not have any methods or fields and used to provide a marker for cloning operation. 
+
+Garbage Collection consolidated points:
+1. GC is used to destroy unused object.
+2. Whenever you run a java program, JVM creates three threads. 1) main thread   2) Thread Scheduler   3) Garbage Collector Thread. 
+   In these three threads, main thread is a user thread and remaining two are daemon threads which run in background.
+3. The task of main thread is to execute the main() method. The task of thread scheduler is to schedule the threads. The task of 
+   garbage collector thread is to sweep out abandoned objects from the heap memory.  
+4. Garbage collector thread calls finalize() method only once for one object.   
+
+finalize() method
+1. finalize() method is a protected and non-static method of java.lang.Object class.
+2. This method will be available in all objects you create in java.      
+3. This method is used to perform some final operations or clean up operations on an object before it is removed from the memory.
+
+/****************************************************Strings*********************************************************************/
+Strings (refer stringConsolidatedPoints.java for all the below points).
+
+String Literals :
+1. String literals are treated as objects of java.lang.String class. You can also create the objects of String class without using new 
+   operator.
+2. 
+
+String Concetination
+1. Addition of the objects takes place from left to right.   
+2. You can concatenate a string object with other data types like int, double, long, char etc.
+3. we can concatenate string objects without using “+” operator. This can be done using concat() method of java.lang.String class.
+4. 
+
+charAt() Method :
+1. This method returns character at the specified index.
+
+getChars() Method
+1. This method copies the set of characters from the string into specified character array.
+
+toCharArray() Method :
+1. This method converts whole string into a character array.
+
+subString() Method
+1. This method returns a sub string of the specified string.
+
+How The Strings Are Stored In The Memory? 
+1. We all know that JVM divides the allocated memory to a Java program into two parts. one is Stack and another one is heap. 
+2. Stack is used for execution purpose and heap is used for storage purpose. In that heap memory, JVM allocates some memory specially 
+   meant for string literals. This part of the heap memory is called String Constant Pool.
+
+For example, when you create string objects like below, they will be stored in the String Constant Pool.
+String s1 = "abc"; 
+String s2 = "xyz";
+String s3 = "123";
+String s4 = "A";
+
+And when you create string objects using new keyword like below, they will be stored in the heap memory.
+String s5 = new String("abc");
+char[] c = {'J', 'A', 'V', 'A'};
+String s6 = new String(c);
+String s7 = new String(new StringBuffer());
+This is how String Constant Pool looks like in the memory. For more information see String-constant-pool image.
+
+StringBuffer And StringBuilder
+1. Both are use to modify the string . StringBuffer is synchornised and stringBuilder is not-synchronised.
+2. 
+
+String Intern In Java
+1. String objects in java are stored in two places in memory. One is String Constant Pool and another one is Heap Memory. String objects 
+   created using string literals are stored in String Constant Pool where as string objects created using new operator are stored in heap
+   memory.
+
+/****************************************************Thread*********************************************************************/
+Thread :
+-Thread is a smallest executable unit of a process. Thread is used to perform a some task.
+ 
+MultiThreading :
+ MultiThreading is a process of executing multiple threads simultaneously.
+ 
+Creation of thread:
+1. There are two ways to create a thread by extending Thread class or by implementing Runnable Interface.
+2. Thread Class or Runnable Interface has one method i.e run() which we have to implement in our class.
+3. Refer example 1 (ThreadsConsolidateJavaProgram.java).
+4. You can give a name or retrieve name  by using setName() or getName() method of Thread class.
+5. In Java, All threads have names. If you are not providing the name to a thread, thread will get default name. Default name of the 
+   thread will be consist of a word “Thread”, followed by hyphen (-) and followed by an integer number starting with 0.
+6. by using currentThread() you can retrieve a name of the primary thread or main thread.  
+7. To identify a thread in java by getID() method.This method returns the unique long number associated with a thread. 
+   That can be used as an identifier of a thread.
+8. Thread ID is a unique positive long number. It remains the same for a thread during its whole life term. Thread ID may be reused when 
+   the thread is terminated.   
+9. Thread ID is generated as soon as the thread is created. So, you can use the thread ID before starting the thread.
+10.Thread ID doesn’t change when the name of a thread is changed. Therefore, if the thread name is changed, still thread can be identified 
+   by it’s ID. 
+11.We can’t assign our own ID to the thread. But, we can change the way getID() returns the thread ID as it is not a final method.
+12.When an application has multiple threads they are choosen to execute on priority basis. A thread with highest priority is choosen 
+   first for execution than the thread with lowest priority. setPriority() and getPriority methods.
+   MIN_PRIORITY   —> It defines the lowest priority that a thread can have and It’s value is 1.
+   NORM_PRIORITY  —> It defines the normal priority that a thread can have and it’s value is 5.
+   MAX_PRIORITY  —> It defines the highest priority that a thread can have and it’s value is 10.
+13.we can change the priority of a main thread. First, get the reference of main thread using CurrentThread() method. Then call 
+   setPriority() method on it. 
+14.The priority of a main thread, if explicitly not set, is always 5 i.e NORM_PRIORITY. 
+15.The Sleep() is used to sleep a tread for a specified amount of time.
+16.Thread.sleep() method may also throws IllegalArgumentException if miilis value is negative or nanos value is not in the range 0 – 999999.
+17.The join() method waits for a thread to die. In other words, it causes the currently running threads to stop executing until the thread it joins with 
+   completes its task.         
+18. Nested classes can also achieve Execution of Threads by extending Thread Class or by Runnable Interface.Refer example 1 
+   (ThreadsConsolidateJavaProgram.java).
+
+Types of Threads: (User Thread and Daemon Thread)
+1. One's you created a User Thread , next step is to set a Daemon is to true and then start a thread.
+2. If you try to use setDaemon after thread start(), you'll get a exception.
+3. You can check whether the thread is user thread or a daemon thread by using isDaemon() method of Thread class.
+4. Daemon property of a thread is inherited from it’s parent thread. i.e The thread created by user thread will be user thread and the 
+   thread created by daemon thread will be a daemon thread.
+5. The main thread or primary thread created by JVM is an user thread. (Pnts 1 , 2 , 3 , 4, 5 Refer example 3)
+6.
+
+Synchronization Consolidated Points:
+1. synchronized keyword only with method not with variable , constructors, static initializer and instance initializers,but they can 
+   contain synchronized blocks.
+2. Both static synchronized and non-static synchronized methods can run simultaneously. Because, static methods need class level 
+   lock and non-static methods need object level lock. A method can contain any number of synchronized blocks.
+3. Synchronized method or block is very slow. Use synchronized blocks instead of synchronized methods. Because, synchronizing some 
+   part of a method improves the performance than synchronizing the whole method.
+   
+Thread Interruption Consolidated Points:
+1. Thread interruption is like telling the thread that it should stop waiting or sleeping and return to running status.   
+2. You can check whether a particular thread is interrupted or not using isInterrupted() method of Thread class.A thread can interrupt 
+   itself. i.e a thread can call interrupt() method on it’s own.   
+   
+Thread Life Cycle ( Refer Example 7 ThradsConsolidateJavaProgram.java)
+1. NEW : A thread will be in this state before calling start() method.
+2. RUNNABLE : A thread will be in this state after calling the start() method. 
+3. BLOCKED : A thread will be in this state when a thread is waiting for object lock to enter into synchronized method/block or a 
+   thread will be in this state if deadlock occurs. 
+4. WAITING : A thread will be in this state when wait() or join() method is called. Below example shows the thread state when join() 
+   method is called.   
+5. TIMED_WAITING : A thread will be in this state when thread is sleeping. i.e A thread will be in this state when sleep() or wait() 
+   with timeOut or join() with timeOut is called.   
+6. 6) TERMINATED : A thread will be in this state once it finishes it’s execution.  
+
+Thread Groups:
+
+/****************************************************Generics*********************************************************************/
+
+Generics : 
+1. Generics are used to check the type compatibility at the compile time and hence removing the chances of occuring ClassCastException at 
+   run time.
+2. Without generics type casting is required.
+3. Generics Work Only With Derived Types :While creating an instance of generic class, you must pass only derived types. You can’t pass 
+   primitive types. If you pass primitive type,it gives compile time error. 
+
+Generic Interface Consolidated Points:
+1. Like generic classes, you can also define generic interfaces. Only generic classes can implement generic interfaces. Normal classes 
+   can’t implement generic interfaces.A normal class can implement a generic interface if type parameter of generic interface is a 
+   wrapper class.
+2. Class can implement more than one generic interfaces. Generic Class can extend one class and implements more than 1 interface.
+
+Bounded Types Consolidated Points:
+1. To limit the types that can be passed to type parameters.
+
+WildCard Types Consolidated Points:   
+1. WildCard arguments means unknown type arguments. It is used to make more generic.  
+
+Type Erasure :
+1. One more interesting thing about generics is type erasure. When you compile your java code, compiler removes all generic information 
+   mentioned in your code. Compiler replaces all type parameters with their bounded type. The type parameters which don’t have bounds will 
+   be replaced with java.lang.Object class. That means all type parameters exist till compilation only. They are erased during compilation. 
+   They don’t exist at run time.
+   
+Some Interesting Observations About Generics In Java
+1. Java allows generic classes to use without type parameters i.e as a raw type. This is because to provide the compatibility of generic 
+   code with non-generic code. That means, non-generic code must be able to work with generic code and generic code must be able to work 
+   with non-generic code.   
+2. You can’t create an instance to the type parameters. This is because, the type parameters does not exist at run time. They are erased 
+   during compilation.   
+3. In generic class with type parameter ‘T’, you can’t declare static fields of type ‘T’ and you can’t use ‘T’ in a static method. However, 
+   you can declare static generic methods with their own type parameters.   
+4. You can’t create an array of generic type containing specific type of data. But, you can create an array of generic type containing 
+   unknown type of data.
+5. You can not create generic exceptions i.e A generic class can not extend Throwable or any of it’s sub classes.
+
+/****************************************************Collections*********************************************************************/
+Collection:
+Collections in java is a framework that provides an architecture to store and manipulate the group of objects.
+
+List Interface Consolidated Points:
+1. List Interface represents an ordered or sequential collection of objects. ArrayList, Vector and LinkedList implements this
+   interface. Elements of the lists are ordered using Zero based index.List interface extends Collection interface.
+
+Queue Interface Consolidated Points:  
+1. The Queue Interface extends Collection interface. It defines queue data structure First-In-First-Out i.e  elements are added 
+   from one end called tail and elements are removed from another end called head
+2. That means an element which is inserted first will be the first element to be removed from the queue. You can’t add or get or 
+   set elements at an arbitrary position in the queues.
+   
+Deque Interface Consolidated Points: 
+1. The Deque is the short name for “Double Ended Queue“.That means, you can insert, retrieve and remove the elements from 
+   both the ends and is a linear collection of objects. It extends Queue interface.
+
+Set Interface Consolidated Points:
+1. The Set interface extends Collection interface.It inherits all method from Collection interface. Set interface does not have 
+   it’s own methods. The only change add() method will return false if you try to insert duplicate element.  
+2. The Set interface defines a set. The set is a linear collection of objects with no duplicates.
+
+SortedSet Interface Consolidated Points:
+1. The SortedSet interface extends Set interface. SortedSet elements are placed according to supplied comparator. 
+2. This Comparator is supplied while creating a SortedSet. If you don’t supply comparator, elements will be placed in ascending order.
+   (Refer image SortedSetInterface.png for complete understanding).   
+
+NavigableSet Interface Consolidated Points:
+1. The NavigableSet interface extends SortedSet interface with navigation facilities. The NavigableSet interface provides many 
+   methods through them you can easily find closest matches of any given element. 
+2. It has the methods to find out less than, less than or equal to, greater than and greater than or equal of any element in a 
+   SortedSet.
+
+Map Interface Consolidated Points:
+1. It starts it’s own interface hierarchy,but it doesn’t inherit Collection Interface.Map interface stores the data as a key-value
+   pairs where each key is associated with a value.A map can not have duplicate keys but can have duplicate values.
+2. Each key-value pairs of the map are stored as Map.Entry objects. Map.Entry is an inner interface of Map interface.
+3. The common implementations of Map interface are HashMap, LinkedHashMap and TreeMap.
+
+ArrayList Class Consolidated Points:
+1. ArrayList class uses dynamic array for storing the element. It extends AbstractList class and implements List Interface . It is 
+   not synchronised and maintain insertion order and can contain duplicate value.
+   
+LinkedList Class Consolidated Points:
+1. Java LinkedList class uses doubly linked list to store the elements. It extends the AbstractList class and implements List and 
+   Deque interfaces.Java LinkedList class maintains insertion order, it can contain duplicate elements and it is non synchronized.  
+
+Vector Class Consolidated Points:
+Vector  is a interface that provide the capability for growable array of object .Vector is slow because it is synchronized    
+
+HashSet Class consolidated points:
+1. Java HashSet class uses HashMap internally to store the objects.It extends AbstractSet class and implements Set interface.         
+   Contains unique elements only.The keys of that HashMap object will be the elements of HashSet .HashSet can have maximum one 
+   null element.HashSet class is not synchronized. If you want synchronized HashSet, use Collections.synchronizedSet() method.
+2. Every constructor of HashSet class internally creates one HashMap object. Whenever you insert an element into HashSet using add()
+   method, it actually creates an entry in HashMap object with element as it’s key and constant called “PRESENT” as it’s value. 
+   Where persent is a constant which is defined as private static final Object PRESENT = new Object();
+   
+LinkedHashSet Class consolidated points:
+1. It extends HashSet class and implements Set interface.Contains unique elements only like HashSet.Maintains insertion order and
+   doesn’t allow duplicate elements and allows only one null element.
+2. LinkedHashSet internally uses LinkedHashMap to store it’s elements.It is not synchronized. To get the synchronized LinkedHashSet,
+   use Collections.synchronizedSet() method.   
+
+TreeSet class consolidated points:
+1. The TreeSet class implements NavigableSet interface that extends the SortedSet interface.Contains unique elements only like 
+   HashSet.Maintains ascending order. TreeSet does not allow even a single null element. TreeSet is not synchronized. To get a 
+   synchronized TreeSet, use Collections.synchronizedSortedSet() method.
+2. TreeSet internally uses TreeMap to store it’s elements.The elements in TreeSet are sorted according to specified Comparator. 
+   If no Comparator is specified, elements will be placed according to their natural ascending order.   
+3. TreeSet doesn’t use hashCode() and equals() methods to compare it’s elements. It uses compare() (or compareTo())
+   method to determine the equality of two elements.   
+   
+HashMap class consolidate points:   
+1. A HashMap contains values based on the key. It implements the Map interface and extends AbstractMap class.It contains only 
+   unique elements.It doesn’t allow duplicate keys but can have duplicate values.It can have multiple null values and only one 
+   null key.HashMap maintains no order. 
+2. HashMap is not synchronized.To synchronized HashMap, use Collections.synchronizedMap() method. Default initial capacity of 
+   HashMap is 16.   
+3. HashMap stores the data in the form of key-value pairs. Each key-value pair is stored in an object of Entry<K, V> class. 
+   Entry<K, V> class is the static inner class of HashMap which is defined like below.   
+
+LinkedHashMap class consolidate points: 
+1. A LinkedHashMap contains values based on the key. It implements the Map interface and extends HashMap class.It contains only 
+   unique elements.It may have one null key and multiple null values.It is same as HashMap instead maintains insertion order.
+   
+TreeMap class consolidate points: 
+1. A TreeMap contains values based on the key. It implements the NavigableMap interface and extends AbstractMap class.It contains 
+   only unique elements.It cannot have null key but can have multiple null values.It is same as HashMap instead maintains ascending order.
+
+HashTable class consolidate points: 
+1. A Hashtable is an array of list.Each list is known as a bucket.The position of bucket is identified by calling the hashcode() method.
+   A Hashtable contains values based on the key. It implements the Map interface and extends Dictionary class. It contains only unique
+   elements. It may have not have any null key or value. It is synchronized.
+
+Comparable : Comparable interface is used to order the objects of user-defined class.This contains only one method named compareTo(Object).
+   It provide only single sorting sequence
+Comparator interface is used to order the objects of user-defined class.This contains 2 methods compare(Object obj1,Object obj2) and 
+   equals(Object element).It provides multiple sorting sequence  
+    
+
+LinkedList
+add() , addAll() , addFirst() , addLast() , clone() , clear() , Contain() , get() , getFirst() , getLast() , indexOf() , lastIndexOf() , pollFirst() , pollLast() , 
+remove(Object item)  , remove(int index) , remove(Object obj) , removeFirst() , removeLast() , removeFirstOccurrence() , removeLastOccurrence() , set(3,"EA") , 
+size()
+
+HashSet
+add() , addAll() ,  clone() , clear() , Contains() , size() , isEmpty() , remove() , removeAll()
+
+LinkedSet
+add() , addAll() ,  clone() , clear() , Contains() , size() , isEmpty() , remove() , removeAll()
+
+TreeSet
+add() , addAll() ,  clone() , clear() , Contains() , ContainsAll(), size() , isEmpty() , remove() , removeAll() , 
+ceiling("F") , floor("F") , headSet("F") , tailSet("B") , first() , last() , lower("E") , higher("E") , descendingSet() , subSet("C" , "E") , pollFirst(),
+pollLast() , retainAll(treSt3) 
+
+HashMap
+put(1, "Hasan"), putAll(hashMap2), .entrySet(), .get(2), .containsKey(1) , .containsValue("Nazim") , .isEmpty() , .size() , .values() , .clone() . 
+
+LinkedHashMap
+put(1, "Hasan"), putAll(hashMap2), .entrySet(), .get(2), .containsKey(1) , .containsValue("Nazim") , .isEmpty() , .size() , .values() , .clone() . 
+
+TreeMap
+put(1, "Hasan"), putAll(hashMap2), .entrySet(), .get(2), .containsKey(1) , .containsValue("Nazim") , .isEmpty() , .size() , .values() , .clone() . ,
+.firstKey() , .lastKey() , .ceilingEntry(5) , .ceilingKey(7) , .floorKey(4) , .descendingKeySet() , .descendingMap() , .floorEntry(6) , .headMap(3) , 
+.headMap(3,true) , .higherEntry(4) , .higherKey(3) , .keySet() , .lastEntry() , .lowerEntry(5) , .lowerKey(5) , .navigableKeySet() , .pollFirstEntry() , 
+.pollLastEntry() .
+
+/**************************************** Design Pattern ************************************************************************/
+what is design pattern ?
+   A design patterns are well-proved solution for solving the specific problem/task.
+
+Advantage of design pattern ?
+  They are reusable in multiple projects.
+  They provide the solutions that help to define the system architecture.
+  They capture the software engineering experiences.  
+  
+When should we use the design patterns?
+  We must use the design patterns during the analysis and requirement phase of SDLC(Software Development Life Cycle).   
+
+Core Java Design Patterns?
+In core java, there are mainly three types of design patterns, which are further divided into their sub-parts: 
+1. Creational Design Pattern (CDP)
+2. Structural Design Pattern
+3. Behavioral Design Pattern
+
+1. Creational Design Pattern (CDP)
+-  Creational design patterns are concerned with the way of creating objects. These design patterns are used when a decision must be made at 
+   the time of instantiation of a class (i.e. creating an object of a class). Hard-Coded code is not the good programming approach.
+-  Factory Method Pattern , Abstract Factory Pattern , Singleton Pattern , Prototype Pattern , Builder Pattern , Object Pool Pattern .
+
+i)  Factory Method Pattern : A Factory Pattern or Factory Method Pattern says that just define an interface or abstract class for creating an 
+    object but let the subclasses decide which class to instantiate.The Factory Method Pattern is also known as Virtual Constructor.   
+
+ii) Abstract Factory Pattern : Abstract Factory Pattern says that just define an interface or abstract class for creating families of 
+    related (or dependent) objects but without specifying their concrete sub-classes.That means Abstract Factory lets a class returns 
+    a factory of classes. So, this is the reason that Abstract Factory Pattern is one level higher than the Factory Pattern. An 
+    Abstract Factory Pattern is also known as Kit.   
+
+iii)Singleton design pattern : Singleton Pattern says that just"define a class that has only one instance and provides a global point 
+    of access to it". In other words, a class must ensure that only single instance should be created and single object can be used 
+    by all other classes. 
+    How to create Singleton design pattern? : Static member , Private constructor,Static factory method .
+    
+iv) Prototype Design Pattern : Prototype Pattern says that cloning of an existing object instead of creating new one and can also be 
+    customized as per the requirement.        
+
+v)  Builder Design Pattern : Builder Pattern says that "construct a complex object from simple objects using step-by-step approach"
+    It is mostly used when object can't be created in single step like in the de-serialization of a complex object.
+    
+vi) Object Pool Pattern : Mostly, performance is the key issue during the software development and the object creation, which may be a costly step.
+	Object Pool Pattern says that " to reuse the object that are expensive to create". 
+	       
+2. Structural Design Pattern
+    Structural design patterns are concerned with how classes and objects can be composed, to form larger structures.
+	The structural design patterns simplifies the structure by identifying the relationships.
+    Types of structural design patterns : Adapter Pattern , Bridge Pattern , Composite Pattern , Decorator Pattern , Facade Pattern ,
+    Flyweight Pattern , proxy Pattern 	 
+       
+i)  Adapter Pattern : An Adapter Pattern says that just "converts the interface of a class into another interface that a client wants".
+    In other words, to provide the interface according to client requirement while using the services of a class with a different interface.
+	The Adapter Pattern is also known as Wrapper.
+
+ii) Bridge Pattern : A Bridge Pattern says that just "decouple the functional abstraction from the implementation so that the two can vary 
+	independently".The Bridge Pattern is also known as Handle or Body.	  
+	
+iv) Composite Pattern : A Composite Pattern says that just "allow clients to operate in generic manner on objects that may or may not represent 
+    a hierarchy of objects".	
+    
+v)  Decorator Pattern : A Decorator Pattern says that just "attach a flexible additional responsibilities to an object dynamically".
+	In other words, The Decorator Pattern uses composition instead of inheritance to extend the functionality of an object at runtime.
+	The Decorator Pattern is also known as Wrapper.
+	
+vi) Facade Pattern : A Facade Pattern says that just "just provide a unified and simplified interface to a set of interfaces in a subsystem, 
+    therefore it hides the complexities of the subsystem from the client". In other words, Facade Pattern describes a higher-level interface 
+    that makes the sub-system easier to use.Practically, every Abstract Factory is a type of Facade.	
+       
+vii)Flyweight Pattern : A Flyweight Pattern says that just "to reuse already existing similar kind of objects by storing them and create new 
+    object when no matching object is found".  
+      
+viii Proxy Pattern : According to GoF, a Proxy Pattern "provides the control for accessing the original object". So, we can perform many 
+	 operations like hiding the information of original object, on demand loading etc.Proxy pattern is also known as Surrogate or Placeholder.
+	 
+3.  Behavioral Design Patterns : Behavioral design patterns are concerned with the interaction and responsibility of objects.
+	In these design patterns,the interaction between the objects should be in such a way that they can easily talk to each other and still 
+	should be loosely coupled. 	   
+	Chain of Responsibility Pattern , Command Pattern , Interpreter Pattern , Iterator Pattern
+	   
+i)  Chain Of Responsibility Pattern : In chain of responsibility, sender sends a request to a chain of objects. The request can be handled by 
+	any object in the chain.A Chain of Responsibility Pattern says that just "avoid coupling the sender of a request to its receiver by giving 
+	multiple objects a chance to handle the request". For example, an ATM uses the Chain of Responsibility design pattern in money giving process.
+
+ii) Command Pattern : A Command Pattern says that "encapsulate a request under an object as a command and pass it to invoker object. Invoker 
+	object looks for the appropriate object which can handle this command and pass the command to the corresponding object and that object 
+	executes the command". It is also known as Action or Transaction.	
+	
+iii)Interpreter Pattern : An Interpreter Pattern says that "to define a representation of grammar of a given language, along with an interpreter 
+	that uses this representation to interpret sentences in the language".
+		
+iv) Iterator Pattern : According to GoF, Iterator Pattern is used "to access the elements of an aggregate object sequentially without exposing 
+	its underlying implementation".The Iterator pattern is also known as Cursor.	
+	
+	
+****************************************
+Abstract Design Pattern : Abstract factory pattern is yet another creational design pattern and is considered as another layer of abstrac-
+   tion over factory pattern.
+	
+Builder Design Pattern : As I said earlier Builder pattern is a creational design pattern it means its solves problem related to object 
+creation. Constructors in Java are used to create object and can take parameters required to create object. Problem starts when an Obje-
+ct can be created with lot of parameters, some of them may be mandatory and others may be optional.
+	
+	Builder pattern builds a complex object using simple objects and using a step by step approach.
+	A Builder class builds the final object step by step. This builder is independent of other objects.
+
+Prototype :- Prototype pattern refers to creating duplicate object while keeping performance in mind.
+
+adapter :- Adapter pattern works as a bridge between two incompatible interfaces.this pattern combines the capability of two ind-
+    ependent interfaces.
+    This pattern involves a single class which is responsible to join functionalities of independent or incompatible interfaces. 
+    A real life example could be a case of card reader which acts as an adapter between memory card and a laptop. You plugin the 
+    memory card into card reader and card reader into the laptop so that memory card can be read via laptop.
+
+Bridge - A Bridge Pattern says that just "decouple the functional abstraction from the implementation so that the two can vary 
+   independently".
+   The Bridge Pattern is also known as Handle or Body.
+   When we have interface hierarchies in both interfaces as well as implementations, then bridge design pattern is used to decouple 
+   the interfaces from implementation and hiding the implementation details from the client programs. 
+   
+   Bridge is used when we need to decouple an abstraction from its implementation so that the two can vary independently.
+   This pattern involves an interface which acts as a bridge which makes the functionality of concrete classes independent from in-
+   terface implementer classes. Both types of classes can be altered structurally without affecting each other.
+   
+Composite -
+   A Composite Pattern says that just "allow clients to operate in generic manner on objects that may or may not represent a hierarchy of objects".   
+
+Decorator -
+A Decorator Pattern says that just "attach a flexible additional responsibilities to an object dynamically".
+In other words, The Decorator Pattern uses composition instead of inheritance to extend the functionality of an object at runtime.
+The Decorator Pattern is also known as Wrapper.
+Decorator design pattern is used to modify the functionality of an object at runtime. At the same time other instances of the same 
+class will not be affected by this, so individual object gets the modified behavior. 
+*************************************************************************	
+Set set = hashMap1.entrySet(); 
+Iterator iterator = set.iterator();
+  while(iterator.hasNext()) {
+     Map.Entry mentry = (Map.Entry)iterator.next();
+     System.out.print("key is: "+ mentry.getKey() + " & Value is: ");   
+     System.out.println(mentry.getValue());
+  }	
+
+for (Map.Entry<Integer, String> entry : ccEmpList.entrySet())
+{ }
+for (Map.Entry<Integer, String> entry : ccEmpList.entrySet())
+{  }
+
+*************************************************************************
+1. Declare an array
+	String[] aArray = new String[5];
+	String[] bArray = {"a","b","c", "d", "e"};
+	String[] cArray = new String[]{"a","b","c","d","e"};
+
+2. Print an array in Java
+	int[] intArray = { 1, 2, 3, 4, 5 };
+	String intArrayString = Arrays.toString(intArray);
+	 
+	// print directly will print reference value
+	System.out.println(intArray);  // [I@7150bd4d
+	System.out.println(intArrayString); // [1, 2, 3, 4, 5]
+		
+3. Create an ArrayList from an array
+   String[] stringArray = { "a", "b", "c", "d", "e" };
+   ArrayList<String> arrayList = new ArrayList<String>(Arrays.asList(stringArray));
+   System.out.println(arrayList); // [a, b, c, d, e]
+
+4. Check if an array contains a certain value
+   String[] stringArray = { "a", "b", "c", "d", "e" };
+   boolean b = Arrays.asList(stringArray).contains("a");
+   System.out.println(b);
+   
+5. Concatenate two arrays   
+   int[] intArray = { 1, 2, 3, 4, 5 };
+   int[] intArray2 = { 6, 7, 8, 9, 10 };
+   // Apache Commons Lang library
+   int[] combinedIntArray = ArrayUtils.addAll(intArray, intArray2);
+   
+6. Declare an array inline   
+   method(new String[]{"a", "b", "c", "d", "e"});
+   
+7. Joins the elements of the provided array into a single String
+   // containing the provided list of elements
+   // Apache common lang
+   String j = StringUtils.join(new String[] { "a", "b", "c" }, ", ");
+   System.out.println(j); // a, b, c   
+  
+8. Covnert an ArrayList to an array  
+   String[] stringArray = { "a", "b", "c", "d", "e" };
+   ArrayList<String> arrayList = new ArrayList<String>(Arrays.asList(stringArray));
+   String[] stringArr = new String[arrayList.size()];
+   arrayList.toArray(stringArr);
+   for (String s : stringArr)
+	 System.out.println(s);
+
+9. Convert an array to a set
+   Set<String> set = new HashSet<String>(Arrays.asList(stringArray));
+   System.out.println(set); //[d, e, b, c, a]
+   
+10.Reverse an array
+   int[] intArray = { 1, 2, 3, 4, 5 };
+	ArrayUtils.reverse(intArray);
+	System.out.println(Arrays.toString(intArray));
+	//[5, 4, 3, 2, 1] 
+	
+11.Remove element of an array
+   int[] intArray = { 1, 2, 3, 4, 5 };
+   int[] removed = ArrayUtils.removeElement(intArray, 3);//create a new array
+   System.out.println(Arrays.toString(removed));	
+   
+12.convert int to byte array
+   byte[] bytes = ByteBuffer.allocate(4).putInt(8).array();
+   for (byte t : bytes) {
+     System.out.format("0x%x ", t);
+   }     
+	  
+	
+	
